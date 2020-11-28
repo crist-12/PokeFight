@@ -1,21 +1,36 @@
-import { StatusBar } from 'expo-status-bar';
-import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import React from 'react'
 
-export default function App() {
-  return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
-  );
+import styled from 'styled-components/native'
+
+import { StatusBar } from 'react-native'
+
+import { NavigationContainer } from '@react-navigation/native'
+import { createStackNavigator } from '@react-navigation/stack'
+
+import PokeBatallaScreen from './scr/screens/PokeBatallaScreen'
+import PokePersonajeScreen from './scr/screens/PokePersonajeScreen'
+import PokeTopScreen from './scr/screens/PokeTopScreen'
+
+const Container = styled.SafeAreaView`
+    flex: 1;
+`
+const Stack = createStackNavigator();
+
+const App = ()=>{
+    return(
+        <Container>  
+          <StatusBar
+        barStyle = "dark-content" hidden={true} />
+        <NavigationContainer>
+          <Stack.Navigator initialRouteName="PokeBatallaScreen" headerMode="none">
+            <Stack.Screen name="PokeBatallaScreen" component={PokeBatallaScreen}/>
+            <Stack.Screen name="PokePersonajeScreen" component={PokePersonajeScreen}/>
+            <Stack.Screen name="PokeUsersScreen" component={PokeTopScreen}/>
+            <Stack.Screen name="PokeTopScreen" component={PokeTopScreen}/>
+            </Stack.Navigator>
+        </NavigationContainer>
+        </Container>
+    )
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
+export default App;

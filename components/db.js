@@ -23,6 +23,21 @@ const getPokemons = (setPokemonsFunc) =>{
  });
 };
 
+const insertPokemons = (nombre,tipo,descripcion,ataque,defensa,velocidad,salud,habilidad,altura,peso, successFunc) => {
+  db.transaction(
+    (tx) => {
+      tx.executeSql("insert into Pokemons (nombre,tipo,descripcion,ataque,defensa,velocidad,salud,habilidad,altura,peso) values (?,?,?,?,?,?,?,?,?,?)", [nombre,tipo,descripcion,ataque,defensa,velocidad,salud,habilidad,altura,peso]);
+    },
+    (_t, error) => {
+      console.log("Error al insertar al Usuario");
+      console.log(error);
+    },
+    (_t, _success) => {
+      successFunc;
+    }
+  );
+};
+
 const getAtaques = (setPokemonsAtackFunc) =>{
     db.transaction((tx)=>{
         tx.executeSql("select * from Ataques",
@@ -62,6 +77,20 @@ const getAtaques = (setPokemonsAtackFunc) =>{
     });
    };
 //
+const insertUsuarios = (Usuario, successFunc) => {
+  db.transaction(
+    (tx) => {
+      tx.executeSql("insert into Usuarios (id,userName) values (?)", [Usuario]);
+    },
+    (_t, error) => {
+      console.log("Error al insertar al Usuario");
+      console.log(error);
+    },
+    (_t, _success) => {
+      successFunc;
+    }
+  );
+};
 
 const updateUsuarios = (Value1, Value2) =>{
     db.transaction((tx)=>{
@@ -78,16 +107,16 @@ const updateUsuarios = (Value1, Value2) =>{
     });
    };
 
-   const updateUsuarios = (Value1) =>{
+   const deleteUsuarios = (Value1) =>{
     db.transaction((tx)=>{
         tx.executeSql("delete from Usuarios where = ? ",
         [Value1],
            (_t, error) => {
-               console.log("Error al momento de obtener los datos de usuarios");
+               console.log("Error al momento de eliminar los datos de usuarios");
                console.log(error);
              },
              (_t, _success) => {
-               console.log("Informacion de los datos de usuarios obtenidos");
+               console.log("Informacion de los datos de usuarios eleminados");
              }
         );
     });
@@ -138,7 +167,7 @@ const setupPokemonsasync = async () => {
   };
 
      // funcion para crear tabla de usuarios
-     const setupAtaquesAsync = async () => {
+     const setupUsuariosAsync = async () => {
         return new Promise((resolve, reject) => {
           db.transaction(
             (tx) => {
@@ -158,4 +187,16 @@ const setupPokemonsasync = async () => {
         });
       };
     
+      export const database = {
+        getAtaques,
+        getPokemons,
+        getUsuarios,
+        insertUsuarios,
+        insertPokemons,
+        updateUsuarios,
+        deleteUsuarios,
+        setupAtaquesAsync,
+        setupPokemonsasync,
+        setupUsuariosAsync
+      };
       

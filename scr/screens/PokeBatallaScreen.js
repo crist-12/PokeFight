@@ -232,6 +232,7 @@ const PokeBatalla = ({navigation})=>{
         try{
               await soundObject.unloadAsync()
               await soundObject.loadAsync(require('../audios/background.mp3'));
+              soundObject.setIsLoopingAsync(true);
               await soundObject.replayAsync();
               console.log(soundObject);
         }catch(error){

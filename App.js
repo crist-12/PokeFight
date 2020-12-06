@@ -10,6 +10,7 @@ import { createStackNavigator } from '@react-navigation/stack'
 import PokeBatallaScreen from './scr/screens/PokeBatallaScreen'
 import PokePersonajeScreen from './scr/screens/PokePersonajeScreen'
 import PokeTopScreen from './scr/screens/PokeTopScreen'
+import PokeUsersScreen from './scr/screens/PokeUsersScreen'
 
 const Container = styled.SafeAreaView`
     flex: 1;
@@ -25,7 +26,7 @@ const App = ()=>{
           <Stack.Navigator initialRouteName="PokeBatallaScreen" headerMode="none">
             <Stack.Screen name="PokeBatallaScreen" component={PokeBatallaScreen}/>
             <Stack.Screen name="PokePersonajeScreen" component={PokePersonajeScreen}/>
-            <Stack.Screen name="PokeUsersScreen" component={PokeTopScreen}/>
+            <Stack.Screen name="PokeUsersScreen" component={PokeUsersScreen}/>
             <Stack.Screen name="PokeTopScreen" component={PokeTopScreen}/>
             </Stack.Navigator>
         </NavigationContainer>

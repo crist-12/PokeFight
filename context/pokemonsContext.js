@@ -4,7 +4,7 @@ import { database } from "../components/db";
 // Crear el contexto
 export const PokemonsContext = createContext({});
 
-export const pokemonsContextProvider = (props) => {
+export const PokemonsContextProvider = (props) => {
   // Obtener los valores iniciales para el contexto
   // se obtienen desde los props
   const { Pokemons: initialNotes, children } = props;
@@ -21,10 +21,11 @@ export const pokemonsContextProvider = (props) => {
     return database.getPokemons(setPokemons);
   };
 
-  const addNewpokemons = (pokemon) => {
-    return database.insertPokemons(pokemon, refreshNotes);
+  const addNewpokemons = async () => {
+    await database.insertPokemons(refreshPokemons);
+    //await database.insertPokemons( refreshPokemons);
+    return refreshPokemons();
   };
-
 
   const refreshUsers = () => {
     return database.getUsuarios(setUsers)
@@ -35,6 +36,7 @@ export const pokemonsContextProvider = (props) => {
     return refreshPokemons();
   }
   
+  
   // Crear el objeto de contexto
   const pokemonsContext = {
     Pokemons,
@@ -44,10 +46,12 @@ export const pokemonsContextProvider = (props) => {
     addNewUsers
   };
 
+   
+
   // Pasar los valores al proveedor y retornarlo
   return (
-    <PokeContext.Provider value={pokemonsContext}>
+    <PokemonsContext.Provider value={pokemonsContext}>
       {children}
-    </PokeContext.Provider>
+    </PokemonsContext.Provider>
   );
 };

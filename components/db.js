@@ -7,7 +7,8 @@ const db = SQLite.openDatabase("basePokemons.db");
 //selecciones de los datos de las  tablas
 const getPokemons = (setPokemonsFunc) =>{
  db.transaction((tx)=>{
-     tx.executeSql("select * from Pokemons",
+     tx.executeSql(
+       "select * from Pokemons",
      [],
      (_, { rows: { _array } }) => {
         setPokemonsFunc(_array);
@@ -36,7 +37,8 @@ const insertPokemons = async (successFunc) => {
         125,
         "Estatica",
         0.4,
-        60 ]);
+        60
+      ]);
     },
     (_t, error) => {
       console.log("Error al insertar al Usuario");
@@ -44,6 +46,7 @@ const insertPokemons = async (successFunc) => {
     },
     (_t, _success) => {
       successFunc;
+      console.log("se insertaron los datos correctamente los pokemones")
     }
   );
 };

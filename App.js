@@ -6,7 +6,7 @@ import { StatusBar } from 'react-native'
 import * as SplashScreen from "expo-splash-screen";
 import { NavigationContainer } from '@react-navigation/native'
 import { createStackNavigator } from '@react-navigation/stack'
-
+import {PokemonsContextProvider} from './context/pokemonsContext'
 import PokeBatallaScreen from './scr/screens/PokeBatallaScreen'
 import PokePersonajeScreen from './scr/screens/PokePersonajeScreen'
 import PokeTopScreen from './scr/screens/PokeTopScreen'
@@ -19,6 +19,7 @@ const Container = styled.SafeAreaView`
 const Stack = createStackNavigator();
 
 const App = ()=>{
+
   SplashScreen.preventAutoHideAsync();
 
   const isLoadingComplete = useDatabase();
@@ -26,12 +27,12 @@ const App = ()=>{
   // Ocultar la pantalla de splash
   if (isLoadingComplete) SplashScreen.hideAsync();
 
-
-
     return(
         <Container>  
+        <PokemonsContextProvider>
           <StatusBar
         barStyle = "dark-content" hidden={true} />
+        
         <NavigationContainer>
           <Stack.Navigator initialRouteName="PokeBatallaScreen" headerMode="none">
             <Stack.Screen name="PokeBatallaScreen" component={PokeBatallaScreen}/>
@@ -40,6 +41,7 @@ const App = ()=>{
             <Stack.Screen name="PokeTopScreen" component={PokeTopScreen}/>
             </Stack.Navigator>
         </NavigationContainer>
+        </PokemonsContextProvider>
         </Container>
     )
 }

@@ -1,4 +1,4 @@
-import React, { useState,useContext } from 'react'
+import React, { useContext, useState,useEffect } from 'react'
 
 import styled from 'styled-components/native'
 
@@ -7,6 +7,7 @@ import { FontAwesome } from '@expo/vector-icons'
 import { Alert } from 'react-native'
 import { NavigationContainer } from '@react-navigation/native'
 import {PokemonsContext} from '../../context/pokemonsContext'
+//import { FadeInFromBottomAndroidSpec } from '@react-navigation/stack/lib/typescript/src/TransitionConfigs/TransitionSpecs'
 
 
 const Icon = styled.Image`
@@ -226,22 +227,21 @@ const soundObject = new Audio.Sound();
 const PokeBatalla = ({navigation})=>{
    
     const pokemonsContext = useContext (PokemonsContext);
-    const { addNewpokemons, refreshPokemons} = pokemonsContext;
-
+    const { addNewpokemons, refreshPokemons,Pokemons} = pokemonsContext;
 
 
     const [play, setPlay] = useState(true);
     let value = play;
     
     const playBackground= async()=>{
-        console.log(play);
-        console.log("Estoy en el audio")
+       // console.log(play);
+     //   console.log("Estoy en el audio")
         try{
               await soundObject.unloadAsync()
               await soundObject.loadAsync(require('../audios/background.mp3'));
               soundObject.setIsLoopingAsync(true);
               await soundObject.replayAsync();
-              console.log(soundObject);
+             // console.log(soundObject);
         }catch(error){
             console.log("Ha ocurrido un error al tratar de cargar el archivo. "+error);
         }
@@ -261,13 +261,14 @@ const PokeBatalla = ({navigation})=>{
         await soundObject.unloadAsync();
         await soundObject.pauseAsync();
        }
-       console.log("Mi valor después es "+value)
-       
+       console.log("Mi valor después es "+value)     
     }
 
+    
+    
     const handlerNewPokemons = async() => {
        
-        const infoPokemons = {
+      /*  const infoPokemons = {
             nombre: "Pikachu",
             tipo:"electrico",
             descripcion: "cuanto mas ataque",
@@ -278,17 +279,22 @@ const PokeBatalla = ({navigation})=>{
             habilidad:"estatica",
             altura:0.4,
             peso: 60
-
         }
+       */
+     
        
-        await addNewpokemons(refreshPokemons);
-        refreshPokemons();
-        console.log (Pokemons);
-         console.log(refreshPokemons);
-    }
+        
+       await addNewpokemons(refreshPokemons);
+       refreshPokemons();
+       console.log (Pokemons);
+        console.log(refreshPokemons);
+       
 
-    handlerNewPokemons;
+}
 
+useEffect(() => {
+ handlerNewPokemons();
+  }, []);
     return(
         <Container>
            <SuperiorRow>
@@ -472,7 +478,6 @@ const PokeBatalla = ({navigation})=>{
 }
 
 export default PokeBatalla;
-
 /*<Card>
                 <Info>
                     Cuanto más potente es la energía eléctrica que genera este Pokémon, más suaves y elásticas se vuelven las bolsas de sus mejillas.

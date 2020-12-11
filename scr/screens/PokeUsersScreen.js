@@ -3,7 +3,8 @@ import React, {useState,useContext} from 'react'
 import styled from 'styled-components/native'
 
 import { MaterialCommunityIcons } from '@expo/vector-icons'
-import { useContext, useState } from 'react'
+import {PokemonsContext} from '../../context/pokemonsContext'
+
 
 const Container = styled.SafeAreaView`
     flex: 1;
@@ -94,17 +95,15 @@ const ButtonTop = styled.TouchableOpacity`
 `
 
 const PokeUsers = ({navigation})=>{
-    const [users,setusers] = useState ("")
+   const [users,setusers] = useState ("")
 
     const pokemonsContext = useContext (PokemonsContext);
     const {addNewUsers} =pokemonsContext
 
     const handlerNewUsers = async(users) =>{
        await addNewUsers (users);  
-        
+
     }
-
-
     return(
         <Container>
             <GrayRow>
@@ -129,7 +128,7 @@ const PokeUsers = ({navigation})=>{
                             </Data>
                             <DataName>
                             <UserText>Mi nombre es: </UserText>
-                            <Name value={users} placeholder="Buscar"></Name>  
+                            <Name value={users} placeholder="Buscar"  ></Name>  
                             </DataName>
                             
                                 <BDiv><ButtonSave onPress={handlerNewUsers}><UserText>Acepto</UserText></ButtonSave></BDiv>

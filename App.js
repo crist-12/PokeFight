@@ -3,7 +3,7 @@ import React from 'react'
 import styled from 'styled-components/native'
 
 import { StatusBar } from 'react-native'
-
+import * as SplashScreen from "expo-splash-screen";
 import { NavigationContainer } from '@react-navigation/native'
 import { createStackNavigator } from '@react-navigation/stack'
 
@@ -11,6 +11,7 @@ import PokeBatallaScreen from './scr/screens/PokeBatallaScreen'
 import PokePersonajeScreen from './scr/screens/PokePersonajeScreen'
 import PokeTopScreen from './scr/screens/PokeTopScreen'
 import PokeUsersScreen from './scr/screens/PokeUsersScreen'
+import useDatabase from './hooks/useDataBase'
 
 const Container = styled.SafeAreaView`
     flex: 1;
@@ -18,6 +19,15 @@ const Container = styled.SafeAreaView`
 const Stack = createStackNavigator();
 
 const App = ()=>{
+  SplashScreen.preventAutoHideAsync();
+
+  const isLoadingComplete = useDatabase();
+
+  // Ocultar la pantalla de splash
+  if (isLoadingComplete) SplashScreen.hideAsync();
+
+
+
     return(
         <Container>  
           <StatusBar

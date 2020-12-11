@@ -2,9 +2,9 @@ import React, { useEffect, createContext, useState } from "react";
 import { database } from "../components/db";
 
 // Crear el contexto
-export const pokeContext = createContext({});
+export const PokemonsContext = createContext({});
 
-export const NotesContextProvider = (props) => {
+export const pokemonsContextProvider = (props) => {
   // Obtener los valores iniciales para el contexto
   // se obtienen desde los props
   const { Pokemons: initialNotes, children } = props;
@@ -21,20 +21,20 @@ export const NotesContextProvider = (props) => {
     return database.getPokemons(setPokemons);
   };
 
-  const addNewpokemons = (notes) => {
-    return database.insertPokemons(notes, refreshNotes);
+  const addNewpokemons = (pokemon) => {
+    return database.insertPokemons(pokemon, refreshNotes);
   };
 
   // Crear el objeto de contexto
-  const notesContext = {
-    notes,
+  const pokemonsContext = {
+    Pokemons,
     addNewpokemons,
   };
 
   // Pasar los valores al proveedor y retornarlo
   return (
-    <NotesContext.Provider value={notesContext}>
+    <PokeContext.Provider value={pokemonsContext}>
       {children}
-    </NotesContext.Provider>
+    </PokeContext.Provider>
   );
 };

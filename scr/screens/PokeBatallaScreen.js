@@ -6,6 +6,8 @@ import { Audio } from 'expo-av'
 import { FontAwesome } from '@expo/vector-icons'
 import { Alert } from 'react-native'
 import { NavigationContainer } from '@react-navigation/native'
+import {PokemonsContext} from '../../context/pokemonsContext'
+
 
 const Icon = styled.Image`
     width: 25px;
@@ -223,6 +225,11 @@ const ABox = styled.View`
 const soundObject = new Audio.Sound();
 const PokeBatalla = ({navigation})=>{
    
+    const pokemonsContext = useContext (PokemonsContext);
+    const { addNewpokemons, refreshPokemons} = pokemonsContext;
+
+
+
     const [play, setPlay] = useState(true);
     let value = play;
     
@@ -257,6 +264,29 @@ const PokeBatalla = ({navigation})=>{
        console.log("Mi valor después es "+value)
        
     }
+
+    const addPokemons = () => {
+       
+        const infoPokemons = {
+            nombre: "Pikachu",
+            tipo:"electrico",
+            descripcion: "cuanto mas ataque",
+            ataque:125,
+            defensa:125,
+            velocidad :125,
+            salud:125,
+            habilidad:"estatica",
+            altura:0.4,
+            peso: 60
+
+        }
+       
+       addNewpokemons(infoPokemons,refreshPokemons);
+       refreshPokemons();
+        console.log(refreshPokemons);
+    }
+
+    addPokemons;
 
     return(
         <Container>

@@ -11,7 +11,7 @@ export const pokemonsContextProvider = (props) => {
 
   // Almacenar los valores en el estado
   const [Pokemons, setPokemons] = useState(initialNotes);
-
+  const [Users,setUsers] = useState ("");
   // Cargar u obtener las notas
   useEffect(() => {
     refreshPokemons();
@@ -25,10 +25,23 @@ export const pokemonsContextProvider = (props) => {
     return database.insertPokemons(pokemon, refreshNotes);
   };
 
+
+  const refreshUsers = () => {
+    return database.getUsuarios(setUsers)
+  }
+
+  const addNewUsers = async (userss) =>{
+    await database.insertUsuarios(userss,refreshUsers);
+    return refreshPokemons();
+  }
+  
   // Crear el objeto de contexto
   const pokemonsContext = {
     Pokemons,
+    Users,
     addNewpokemons,
+    refreshPokemons,
+    addNewUsers
   };
 
   // Pasar los valores al proveedor y retornarlo

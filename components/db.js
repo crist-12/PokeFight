@@ -23,10 +23,20 @@ const getPokemons = (setPokemonsFunc) =>{
  });
 };
 
-const insertPokemons = (nombre,tipo,descripcion,ataque,defensa,velocidad,salud,habilidad,altura,peso, successFunc) => {
+const insertPokemons = async (successFunc) => {
   db.transaction(
     (tx) => {
-      tx.executeSql("insert into Pokemons (nombre,tipo,descripcion,ataque,defensa,velocidad,salud,habilidad,altura,peso) values (?,?,?,?,?,?,?,?,?,?)", [nombre,tipo,descripcion,ataque,defensa,velocidad,salud,habilidad,altura,peso]);
+      tx.executeSql("insert into Pokemons (nombre,tipo,descripcion,ataque,defensa,velocidad,salud,habilidad,altura,peso) values (?,?,?,?,?,?,?,?,?,?)", [
+        "Pikachu",
+        "Electrico",
+        "Es un pokemon electrico",
+        125,
+        125,
+        125,
+        125,
+        "Estatica",
+        0.4,
+        60 ]);
     },
     (_t, error) => {
       console.log("Error al insertar al Usuario");
@@ -141,6 +151,7 @@ const setupPokemonsasync = async () => {
         },
         (_t, success) => {
           resolve(success);
+          console.log("tabla pokemons creada correctamenete")
         }
       );
     });
@@ -161,6 +172,7 @@ const setupPokemonsasync = async () => {
         },
         (_t, success) => {
           resolve(success);
+          console.log("tabla Ataques creada correctamente");
         }
       );
     });
@@ -182,6 +194,7 @@ const setupPokemonsasync = async () => {
             },
             (_t, success) => {
               resolve(success);
+              console.log ("tablas usuarios creada correctamente");
             }
           );
         });

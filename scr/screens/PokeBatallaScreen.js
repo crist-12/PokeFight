@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState,useContext } from 'react'
 
 import styled from 'styled-components/native'
 
@@ -265,7 +265,7 @@ const PokeBatalla = ({navigation})=>{
        
     }
 
-    const addPokemons = () => {
+    const handlerNewPokemons = async() => {
        
         const infoPokemons = {
             nombre: "Pikachu",
@@ -281,12 +281,13 @@ const PokeBatalla = ({navigation})=>{
 
         }
        
-       addNewpokemons(infoPokemons,refreshPokemons);
-       refreshPokemons();
-        console.log(refreshPokemons);
+        await addNewpokemons(refreshPokemons);
+        refreshPokemons();
+        console.log (Pokemons);
+         console.log(refreshPokemons);
     }
 
-    addPokemons;
+    handlerNewPokemons;
 
     return(
         <Container>

@@ -1,8 +1,9 @@
-import React from 'react'
+import React, {useState,useContext} from 'react'
 
 import styled from 'styled-components/native'
 
 import { MaterialCommunityIcons } from '@expo/vector-icons'
+import { useContext, useState } from 'react'
 
 const Container = styled.SafeAreaView`
     flex: 1;
@@ -93,6 +94,17 @@ const ButtonTop = styled.TouchableOpacity`
 `
 
 const PokeUsers = ({navigation})=>{
+    const [users,setusers] = useState ("")
+
+    const pokemonsContext = useContext (PokemonsContext);
+    const {addNewUsers} =pokemonsContext
+
+    const handlerNewUsers = async(users) =>{
+       await addNewUsers (users);  
+        
+    }
+
+
     return(
         <Container>
             <GrayRow>
@@ -117,10 +129,10 @@ const PokeUsers = ({navigation})=>{
                             </Data>
                             <DataName>
                             <UserText>Mi nombre es: </UserText>
-                            <Name placeholder="Buscar"></Name>  
+                            <Name value={users} placeholder="Buscar"></Name>  
                             </DataName>
                             
-                                <BDiv><ButtonSave><UserText>Acepto</UserText></ButtonSave></BDiv>
+                                <BDiv><ButtonSave onPress={handlerNewUsers}><UserText>Acepto</UserText></ButtonSave></BDiv>
                             
 
                     </RegisterDiv>

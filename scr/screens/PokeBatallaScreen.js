@@ -6,7 +6,13 @@ import { Audio } from 'expo-av'
 import { FontAwesome } from '@expo/vector-icons'
 import { Alert } from 'react-native'
 import { NavigationContainer } from '@react-navigation/native'
-import {PokemonsContext} from '../../context/pokemonsContext'
+
+import { PokeContext } from '../context/PokeContext'
+import { AtaqueContext, AtaquesContext } from '../context/AtaquesContext'
+
+import { setContrincante, setPersonaje, setImagen, setImagenContrincante, setAtaques, setAtaquesOponente } from '../../data_store'
+
+//import {PokemonsContext} from '../../context/pokemonsContext'
 //import { FadeInFromBottomAndroidSpec } from '@react-navigation/stack/lib/typescript/src/TransitionConfigs/TransitionSpecs'
 
 
@@ -129,7 +135,7 @@ const PokeName = styled.Text`
     font-size: 14px;
 `
 
-const PokeCircle = styled.View`
+const PokeCircle = styled.TouchableOpacity`
     width: 80px;
     margin: 20px 20px;
     height: 80px;
@@ -147,7 +153,8 @@ const Card = styled.View`
      background: #C1E6F6
 `
 
-const Type = styled.View`
+//Pikachu
+const Type0 = styled.View` 
     height: 20px;
     width: 70px;
     border-radius: 10px;
@@ -157,6 +164,67 @@ const Type = styled.View`
     border: 1px;
     margin: 8px;
 `
+
+//Bulbasaur
+const Type1 = styled.View`
+    height: 20px;
+    width: 70px;
+    border-radius: 10px;
+    background: #92da5f;
+    justify-content: center;
+    align-items: center;
+    border: 1px;
+    margin: 8px;
+`
+
+//Butterfree
+const Type2 = styled.View`
+    height: 20px;
+    width: 70px;
+    border-radius: 10px;
+    background: #dbe3d6;
+    justify-content: center;
+    align-items: center;
+    border: 1px;
+    margin: 8px;
+`
+
+//Squirtle
+const Type3 = styled.View`
+    height: 20px;
+    width: 70px;
+    border-radius: 10px;
+    background: #46cfca;
+    justify-content: center;
+    align-items: center;
+    border: 1px;
+    margin: 8px;
+`
+
+//Riolu
+const Type4 = styled.View`
+    height: 20px;
+    width: 70px;
+    border-radius: 10px;
+    background: #ec9f49;
+    justify-content: center;
+    align-items: center;
+    border: 1px;
+    margin: 8px;
+`
+
+//Eevee
+const Type5 = styled.View`
+    height: 20px;
+    width: 70px;
+    border-radius: 10px;
+    background: #cb96fa;
+    justify-content: center;
+    align-items: center;
+    border: 1px;
+    margin: 8px;
+`
+
 const Name = styled.Text`
     font-weight: bold;
     font-size: 16px;
@@ -224,15 +292,123 @@ const ABox = styled.View`
     flex: 1;
 `
 const soundObject = new Audio.Sound();
+
 const PokeBatalla = ({navigation})=>{
    
-    const pokemonsContext = useContext (PokemonsContext);
-    const { addNewpokemons, refreshPokemons,Pokemons} = pokemonsContext;
+    const [id, setId]=useState(0);
+    let PokeObject = {
+        "nombre": "Pikachu",
+        "altura": 0.4,
+        "ataque": 155,
+        "tipo": "Eléctrico",
+        "defensa": 155,
+        "velocidad": 155,
+        "salud": 155,
+        "descripcion": "Pikachu",
+        "peso": 60,
+        "id": 0,
+        "habilidad": "Estática"
+    }
 
 
+
+    console.log("Mi valor predeterminado es: "+PokeObject.tipo)
+   // const pokemonsContext = useContext (PokemonsContext);
+    // const { addNewpokemons, refreshPokemons,Pokemons} = pokemonsContext;
+    const pokesContext = useContext(PokeContext);
+    const {pokes} = pokesContext;
+
+    const ataquesContext = useContext(AtaqueContext);
+    const {ataques} = ataquesContext;
+
+
+    console.log("Los ataques son: ")
+    console.log(ataques);
+ /*   useEffect(()=>{
+        PikachuPok = pokes[0];
+        BulbasaurPok = pokes[1];
+        ButterfreePok = pokes[2];
+        EeveePok = pokes[3];
+        RioluPok = pokes[4];
+        SquirtlePok = pokes[5];
+        PokeObject = PikachuPok;
+    },[]) */
+
+   // let poke1 = pokes[0];
+ //  console.log("myArray vale: "+myArray);
+ //   console.log(myArray[0].nombre)
     const [play, setPlay] = useState(true);
     let value = play;
+    var tipo;
+    var imagen = <ImageCard source={require('../img/Pikachu.png')}/>
+    let parametro = id;
+
+
+
+    const mostrarPoke=(parametro)=>{
+        console.log(id);
+        switch(parametro){
+            case 0:
+                console.log("Elegiste a Pikachu");
+                tipo = <Type0><Info>Eléctrico</Info></Type0>
+                imagen = <ImageCard source={require('../img/Pikachu.png')}/>
+                break;
+            case 1:
+             //   PokeObject = BulbasaurPok;
+                console.log("Elegiste a Bulbasaur");
+                tipo = <Type1><Info>Planta</Info></Type1>
+                imagen = <ImageCard source={require('../img/Bulbasaur.png')}/>
+                break;
+            case 2:
+             //   PokeObject = ButterfreePok;
+
+                console.log("Elegiste a Butterfree");
+                tipo = <Type2><Info>Volador</Info></Type2>
+                imagen = <ImageCard source={require('../img/Butterfree.png')}/>
+                break;
+            case 3:
+            //    PokeObject = SquirtlePok;
+
+                console.log("Elegiste a Squirtle");
+                tipo = <Type3><Info>Agua</Info></Type3>
+                imagen = <ImageCard source={require('../img/Squirtle.png')}/>
+                break;
+            case 4:
+             //       PokeObject = RioluPok;
+
+                    console.log("Elegiste a Riolu");
+                    tipo = <Type4><Info>Lucha</Info></Type4>
+                    imagen = <ImageCard source={require('../img/Riolu.png')}/>
+                    break;  
+            case 5:
+             //       PokeObject = EeveePok;
+
+                    console.log("Elegiste a Eevee");
+                    tipo = <Type5><Info>Normal</Info></Type5>
+                    imagen = <ImageCard source={require('../img/Eevee.png')}/>
+                    break;  
+        }
+        try{
+  //  PokeObject = null;
+    PokeObject = pokes[parametro];
+    console.log(PokeObject);
     
+}catch(e){
+    console.log("No pude :C")
+}
+        
+    }
+
+    mostrarPoke(parametro);
+    
+
+    const obtenerContrincante=()=>{
+        return Math.round(Math.random()*(5));
+    }
+
+   
+    
+
     const playBackground= async()=>{
        // console.log(play);
      //   console.log("Estoy en el audio")
@@ -251,6 +427,39 @@ const PokeBatalla = ({navigation})=>{
         playBackground();
         
     }
+
+    const Navegar=()=>{
+        var oponente;
+        var index = obtenerContrincante();
+        setPersonaje(PokeObject);
+        setContrincante(pokes[index]);
+        setImagen(imagen);
+        
+        switch(index){
+            case 0:
+                oponente = <ImageCard source={require('../img/Pikachu.png')}/>
+                break;
+            case 1:
+                oponente = <ImageCard source={require('../img/Bulbasaur.png')}/>
+                break;
+            case 2:
+                oponente = <ImageCard source={require('../img/Butterfree.png')}/>
+                break;
+            case 3:
+                oponente = <ImageCard source={require('../img/Squirtle.png')}/>
+                break;
+            case 4:
+                oponente = <ImageCard source={require('../img/Riolu.png')}/>
+                break;
+            case 5:
+                oponente = <ImageCard source={require('../img/Eevee.png')}/>
+                break;
+        }
+        setAtaques(ataques[parametro]);
+        setImagenContrincante(oponente)
+        setAtaquesOponente(ataques[index]);
+        navigation.navigate("PokePersonajeScreen")
+    }
     
    const setChangeAudio=async()=>{
        value = !play;
@@ -262,39 +471,8 @@ const PokeBatalla = ({navigation})=>{
         await soundObject.pauseAsync();
        }
        console.log("Mi valor después es "+value)     
-    }
+    } 
 
-    
-    
-    const handlerNewPokemons = async() => {
-       
-      /*  const infoPokemons = {
-            nombre: "Pikachu",
-            tipo:"electrico",
-            descripcion: "cuanto mas ataque",
-            ataque:125,
-            defensa:125,
-            velocidad :125,
-            salud:125,
-            habilidad:"estatica",
-            altura:0.4,
-            peso: 60
-        }
-       */
-     
-       
-        
-       await addNewpokemons(refreshPokemons);
-       refreshPokemons();
-       console.log (Pokemons);
-        console.log(refreshPokemons);
-       
-
-}
-
-useEffect(() => {
- handlerNewPokemons();
-  }, []);
     return(
         <Container>
            <SuperiorRow>
@@ -346,7 +524,7 @@ useEffect(() => {
                     </PokeRow>
                     <PokeRow>
                         <Group>
-                            <PokeCircle>
+                            <PokeCircle onPress={()=>setId(0)}>
                                 <PokeImage
                                 source={require('../img/Pikachu.png')}
                                 />
@@ -354,7 +532,7 @@ useEffect(() => {
                             <PokeName>Pikachu</PokeName>
                         </Group>
                         <Group>
-                            <PokeCircle>
+                            <PokeCircle onPress={()=>setId(1)}>
                             <PokeImage
                                 source={require('../img/Bulbasaur.png')}
                                 />
@@ -362,7 +540,7 @@ useEffect(() => {
                             <PokeName>Bulbasaur</PokeName>
                         </Group>
                         <Group>
-                            <PokeCircle>
+                            <PokeCircle onPress={()=>setId(2)}>
                             <PokeImage
                                 source={require('../img/Butterfree.png')}
                                 />
@@ -372,7 +550,7 @@ useEffect(() => {
                     </PokeRow>
                     <PokeRow>
                     <Group>
-                            <PokeCircle>
+                            <PokeCircle onPress={()=>setId(3)}>
                             <PokeImage
                                 source={require('../img/Squirtle.png')}
                                 />
@@ -380,7 +558,7 @@ useEffect(() => {
                             <PokeName>Squirtle</PokeName>
                         </Group>
                     <Group>
-                            <PokeCircle>
+                            <PokeCircle onPress={()=>setId(4)}>
                             <PokeImage
                                 source={require('../img/Riolu.png')}
                                 />
@@ -388,7 +566,7 @@ useEffect(() => {
                             <PokeName>Riolu</PokeName>
                         </Group>
                         <Group>
-                            <PokeCircle>
+                            <PokeCircle onPress={()=>setId(5)}>
                             <PokeImage
                                 source={require('../img/Eevee.png')}
                                 />
@@ -399,27 +577,27 @@ useEffect(() => {
                 </PokeArray>
                 <PokeCardGroup>
             <Title>
-                <Name>Pikachu</Name>
-                <ButtonTop onPress={()=>navigation.navigate("PokePersonajeScreen")}>
+                <Name>{PokeObject.nombre}</Name>
+                <ButtonTop onPress={()=>Navegar()} >
                 <Icon
                     source={require('../img/fencing2.png')}/>
                 </ButtonTop>
                 </Title>
 
             <Card>
-            <Type><Info>Eléctrico</Info></Type>
+            {tipo}
             </Card>
             <CardDivider>
                 <InfoDivider>
                 <Description>
-                    Cuanto más potente es la energía eléctrica que genera este Pokémon, más suaves y elásticas se vuelven sus mejillas.
+                    {PokeObject.descripcion}
                 </Description>
                 <StatsBox>
                     <SBox>
                         <StatText>PS</StatText>
                     </SBox>
                     <SValue>
-                        <Info>125</Info>
+                        <Info>{PokeObject.salud}</Info>
                     </SValue>
                 </StatsBox>
                 <StatsBox>
@@ -427,7 +605,7 @@ useEffect(() => {
                         <StatText>Ataque</StatText>
                     </SBox>
                     <SValue>
-                        <Info>125</Info>
+                        <Info>{PokeObject.ataque}</Info>
                     </SValue>
                 </StatsBox>
                 <StatsBox>
@@ -435,7 +613,7 @@ useEffect(() => {
                         <StatText>Defensa</StatText>
                     </SBox>
                     <SValue>
-                        <Info>125</Info>
+                        <Info>{PokeObject.defensa}</Info>
                     </SValue>
                 </StatsBox>
                 <StatsBox>
@@ -443,30 +621,28 @@ useEffect(() => {
                         <StatText>Velocidad</StatText>
                     </SBox>
                     <SValue>
-                        <Info>125</Info>
+                        <Info>{PokeObject.velocidad}</Info>
                     </SValue>
                 </StatsBox>
                 </InfoDivider>
                 <ImageDivider>
                 <ImageBox>
-                <ImageCard
-                    source={require('../img/Pikachu.png')}
-                    />
+                {imagen}
                 </ImageBox>
                 <AbilityBox>
                     <ABox>
                         <StatText>Habilidad</StatText>
                     </ABox>
                     <ABox>
-                        <Info>Estática</Info>
+                        <Info>{PokeObject.habilidad}</Info>
                     </ABox>
                 </AbilityBox>
                 <AbilityBox>
                 <ABox>
-                        <StatText>Peso y Altura</StatText>
+                        <StatText>Altura y peso</StatText>
                     </ABox>
                     <ABox>
-                        <Info>0.4 m  60kg</Info>
+                        <Info>{PokeObject.altura} m  {PokeObject.peso} kg</Info>
                     </ABox>
                 </AbilityBox>
                 </ImageDivider>

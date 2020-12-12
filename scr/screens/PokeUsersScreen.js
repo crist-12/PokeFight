@@ -2,8 +2,12 @@ import React, {useState,useContext} from 'react'
 
 import styled from 'styled-components/native'
 
+import { TextInput, Text, ScrollView, Button } from 'react-native'
+
 import { MaterialCommunityIcons } from '@expo/vector-icons'
-import {PokemonsContext} from '../../context/pokemonsContext'
+//import {PokemonsContext} from '../../context/pokemonsContext'
+
+import {UsersContext} from '../context/UsersContext'
 
 
 const Container = styled.SafeAreaView`
@@ -95,7 +99,7 @@ const ButtonTop = styled.TouchableOpacity`
 `
 
 const PokeUsers = ({navigation})=>{
-   const [users,setusers] = useState ("")
+   /*const [users,setusers] = useState ("")
 
     const pokemonsContext = useContext (PokemonsContext);
     const {addNewUsers} =pokemonsContext
@@ -103,7 +107,27 @@ const PokeUsers = ({navigation})=>{
     const handlerNewUsers = async(users) =>{
        await addNewUsers (users);  
 
+    }*/
+   
+    const [ name, setName ] = useState(null);
+   
+    const usersContext = useContext(UsersContext);
+    const {users, addNewUser}= usersContext;
+
+    const insertUser = () => {
+        try{
+        addNewUser(name)
+        console.log("He guardado el usuario "+name);
+        setName('')
+
     }
+        catch(e){
+            console.log(e);
+        }
+        
+      }
+
+
     return(
         <Container>
             <GrayRow>
@@ -128,11 +152,11 @@ const PokeUsers = ({navigation})=>{
                             </Data>
                             <DataName>
                             <UserText>Mi nombre es: </UserText>
-                            <Name value={users} placeholder="Buscar"  ></Name>  
+                            <Name onChangeText={setName} value={name} placeholder="Buscar"></Name>  
                             </DataName>
                             
-                                <BDiv><ButtonSave onPress={handlerNewUsers}><UserText>Acepto</UserText></ButtonSave></BDiv>
-                            
+                                <BDiv><ButtonSave onPress={insertUser}><UserText>Acepto</UserText></ButtonSave></BDiv>
+                                
 
                     </RegisterDiv>
 

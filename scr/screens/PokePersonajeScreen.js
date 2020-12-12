@@ -2,6 +2,8 @@ import React from 'react'
 
 import styled from 'styled-components/native'
 import { MaterialCommunityIcons } from '@expo/vector-icons'
+import { setContrincante, setPersonaje, getContrincante, getPersonaje, getImagen, getImagenContrincante, getAtaques, getAtaquesOponentes } from '../../data_store'
+import { useState } from 'react/cjs/react.development'
 
 const Container = styled.View`
     flex: 1;
@@ -140,6 +142,8 @@ const CenterBox = styled.View`
 const FighterDiv = styled.View`
     width: 40%;
     height: 100%;
+    justify-content: center;
+    align-items: center;
 `
 
 const Statistics = styled.View`
@@ -163,12 +167,19 @@ const ButtonRow = styled.View`
     flex-direction: row;
     align-items: center;
 `
+const ImageCard = styled.Image`
+    height: 80px;
+    width: 80px;
+    resize-mode: stretch;
+`
 
 const ButtonMov = styled.TouchableOpacity`
     background: #c4c4c4;
     width: 40%;
     height: 80%;
     margin: 0 14px;
+    justify-content: center;
+    align-items: center;
 `
 
 const StatsText = styled.Text`
@@ -185,7 +196,117 @@ const StatsDesc = styled.Text`
     margin-right: 20px;
 `
 
+const MoveText = styled.Text`
+    font-size: 14px;
+    text-align: center;
+`
+
 const PokePersonaje = ({navigation})=>{
+
+let miPokemon = getPersonaje();
+let pokemonContrario = getContrincante();
+let imagen1 = getImagen();
+let imagen2 = getImagenContrincante();
+let ataque1 = getAtaques()
+let ataque2 = getAtaquesOponentes()
+
+let damage;
+let damage2;
+
+const [poke, setPoke]= useState('');
+const [danio, setDanio]=useState('')
+const [move, setMove]=useState('')
+const [ps1, setps1]=useState(null);
+const [ps2, setps2]=useState(null);
+
+
+let ataqueIndex1 = miPokemon.ataque;
+let ataqueIndex2 = pokemonContrario.ataque;
+let defensaIndex1 = miPokemon.defensa;
+let defensaIndex2 = pokemonContrario.defensa;
+
+
+
+/*
+console.log(ataque1)
+console.log(ataque2)
+
+console.log(miPokemon);
+console.log(pokemonContrario);
+*/
+
+
+const calcDamageMio=(pokeAttack)=>{
+
+    setPoke(miPokemon.nombre);
+    let attackPower;
+switch(pokeAttack){
+    case 1:
+        setMove(ataque1.Ataque1);
+        attackPower = ataque1.Valor1;
+        break;
+    case 2:
+        setMove(ataque1.Ataque2);
+        attackPower = ataque1.Valor2;
+        break;
+    case 3:
+        setMove(ataque1.Ataque3);
+        attackPower = ataque1.Valor3;
+        break;
+    case 4:
+        setMove(ataque1.Ataque4);
+        attackPower = ataque1.Valor4;
+        break;
+}
+damage = ((((2*100/5+2)*ataqueIndex1*attackPower/defensaIndex1)/50)+2*60)/5;
+
+setDanio(Math.round(damage))
+
+console.log("Daño mío: "+damage);
+}
+
+const CalcDamageOpposite=()=>{
+    let opposite;
+    let attackPower;
+    opposite = Math.round(Math.random() * (4 - 1) + 1);
+    setPoke(pokemonContrario.nombre);
+    switch(opposite){
+        case 1:
+            setMove(ataque2.Ataque1);
+            attackPower = ataque2.Valor1;
+            break;
+        case 2:
+            setMove(ataque2.Ataque2);
+            attackPower = ataque2.Valor2;
+            break;
+        case 3:
+            setMove(ataque2.Ataque3);
+            attackPower = ataque2.Valor3;
+            break;
+        case 4:
+            setMove(ataque2.Ataque4);
+            attackPower = ataque2.Valor4;
+            break;
+    }
+    console.log(opposite)
+    console.log(attackPower);
+    damage2 = ((((2*100/5+2)*ataqueIndex2*attackPower/defensaIndex2)/50)+2*60)/5;
+    console.log("Daño ajeno: "+damage2);
+    
+    setDanio(Math.round(damage2));
+}
+
+const toDamage=(param)=>{
+    calcDamageMio(param);
+    setTimeout(CalcDamageOpposite, 3000);
+}
+
+
+
+
+const matriz = [];
+console.log(matriz);
+
     return(
         <Container>
             <SuperiorRow>
@@ -211,7 +332,7 @@ const PokePersonaje = ({navigation})=>{
             <FighterRow>
             <FightBox>
                 <Fighter1>
-               <PokeNames>Pikachu</PokeNames>
+               <PokeNames>{miPokemon.nombre}</PokeNames>
                </Fighter1>
                <Triangle1/>
                 </FightBox>
@@ -221,40 +342,39 @@ const PokePersonaje = ({navigation})=>{
                 <FightBox>
                 <Triangle2/>
                 <Fighter1>
-               <PokeNames>Squirtle</PokeNames>
+               <PokeNames>{pokemonContrario.nombre}</PokeNames>
                </Fighter1>
                 </FightBox>
             </FighterRow>
             <CenterBox>
-                <FighterDiv><UserText>H</UserText></FighterDiv>
+                <FighterDiv>{imagen1}</FighterDiv>
                 <Statistics>
-                    <StatsText>Pikachu utilizó:</StatsText>
-                    <StatsDesc>Cola de hierro</StatsDesc>
+                    <StatsText>{poke} utilizó:</StatsText>
+                    <StatsDesc>{move}</StatsDesc>
                     <StatsText></StatsText>
-                    <StatsDesc>Daño: 35</StatsDesc>
+                    <StatsDesc>Daño: {danio}</StatsDesc>
                 </Statistics>
-                <FighterDiv><UserText>H</UserText></FighterDiv>
+                <FighterDiv>{imagen2}</FighterDiv>
             </CenterBox>
             <DownBar>
                 <FighterDiv>
                    <ButtonRow>
-                       <ButtonMov></ButtonMov>
-                       <ButtonMov></ButtonMov>
+                        <ButtonMov onPress={()=>toDamage(1)}><MoveText>{ataque1.Ataque1}</MoveText></ButtonMov>
+                        <ButtonMov onPress={()=>toDamage(2)}><MoveText>{ataque1.Ataque2}</MoveText></ButtonMov>
                    </ButtonRow>
                    <ButtonRow>
-                       <ButtonMov></ButtonMov>
-                       <ButtonMov></ButtonMov>
+                        <ButtonMov onPress={()=>toDamage(3)}><MoveText>{ataque1.Ataque3}</MoveText></ButtonMov>
+                        <ButtonMov onPress={()=>toDamage(4)}><MoveText>{ataque1.Ataque4}</MoveText></ButtonMov>
                    </ButtonRow>
                 </FighterDiv>
-                
                 <FighterDiv>
                 <ButtonRow>
-                       <ButtonMov></ButtonMov>
-                       <ButtonMov></ButtonMov>
+                        <ButtonMov><MoveText>{ataque2.Ataque1}</MoveText></ButtonMov>
+                        <ButtonMov><MoveText>{ataque2.Ataque2}</MoveText></ButtonMov>
                    </ButtonRow>
                    <ButtonRow>
-                       <ButtonMov></ButtonMov>
-                       <ButtonMov></ButtonMov>
+                        <ButtonMov><MoveText>{ataque2.Ataque3}</MoveText></ButtonMov>
+                        <ButtonMov><MoveText>{ataque2.Ataque4}</MoveText></ButtonMov>
                    </ButtonRow>
                 </FighterDiv>
             </DownBar>

@@ -10,16 +10,20 @@ export default function useDatabase() {
     async function loadDataAsync() {
       try {
        // await database.dropDatabaseTablesAsync()
-        await database.setupDatabaseAsync()
+        //await database.setupDatabaseAsync()
         
+       // await database.dropBatallasTable()
         await database.dropPokeTable()
         await database.dropAtaqueTable()
         await database.setupUsersAsync()
         await database.setupPokeTableAsync()
+        await database.setupBatallaTable()
         await database.setupAtaqueTable()
+        //await database.insertUser()
         await database.insertPokemons()
         await database.insertAtaques()
-        await database.setupBatallaTable()
+
+        //await database.insertBattle()
         setDBLoadingComplete(true);
       } catch (e) {
           console.log("No pude entrar :c")
@@ -27,7 +31,6 @@ export default function useDatabase() {
         console.warn(e);
       }
     }
-
     loadDataAsync();
   }, []);
 

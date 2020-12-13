@@ -1,9 +1,12 @@
-import React, {useContext} from 'react'
+import React, {useContext, useEffect, useState} from 'react'
 
 import styled from 'styled-components/native'
 
+import {Alert} from 'react-native'
+
 import { MaterialCommunityIcons } from '@expo/vector-icons'
 import {BatallasContext} from '../context/BatallasContext'
+import {UsersContext} from '../context/UsersContext'
 
 const Container = styled.SafeAreaView`
     flex: 1;
@@ -60,6 +63,28 @@ const ButtonTop = styled.TouchableOpacity`
     justify-content: center;
 `
 
+const UpdateButton = styled.TouchableOpacity`
+    height: 30px;
+    width: 30px;
+    border-radius: 15px;
+    background: green;
+    margin-top: 5px;
+    margin-left: 10px;
+    align-items: center;
+    margin-right: 15px;
+    justify-content: center;
+`
+const DeleteButton = styled.TouchableOpacity`
+    height: 30px;
+    width: 30px;
+    border-radius: 15px;
+    background: red;
+    margin-top: 5px;
+    margin-left: 10px;
+    align-items: center;
+    margin-right: 15px;
+    justify-content: center;
+`
 const Table = styled.View`
     width: 60%;
     height: 70%;
@@ -78,10 +103,50 @@ const Row = styled.View`
     padding: 2px;
 `
 
+const ViewButton = styled.View`
+
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+`
+
+const BackRow = styled.View`
+    width: 15%;
+
+`
+
+const RightRow = styled.View`
+    width: 15%;
+    align-items: flex-end;
+
+    flex-direction: row;
+`
+
 const PokeTop = ({navigation})=>{
 
-    const batallasContext = useContext(BatallasContext);
-    const {batallas, addNewBatalla}= batallasContext;
+
+    let batallasContext = useContext(BatallasContext);
+    let {batallas, deleteBatallas, setBatallas}= batallasContext;
+    console.log(batallas);
+    console.log("Me rendericé");
+    const[dummy, setDummy]=useState(0);
+
+    const borrar=()=>{
+        Alert.alert(
+            'Eliminar datos de batalla',
+            'Esta acción es irreversible, ¿deseas continuar?',
+            [
+              {
+                text: 'No',
+                onPress: () => console.log('Cancel Pressed'),
+                style: 'cancel'
+              },
+              { text: 'Si', onPress: () => (deleteBatallas(), setBatallas(null))  }
+            ],
+            { cancelable: true }
+          );
+    }
+
 
     return(
         <Container>
@@ -89,7 +154,8 @@ const PokeTop = ({navigation})=>{
             <GrayRow>
                 <TitleText>Top Mejores Batallas</TitleText>
             </GrayRow>
-
+            <ViewButton>
+                <BackRow>
             <ButtonTop onPress={()=>navigation.navigate("PokeBatallaScreen")}>
             <MaterialCommunityIcons 
                 name="arrow-left-bold"
@@ -97,53 +163,72 @@ const PokeTop = ({navigation})=>{
                 color="white"
                 />
             </ButtonTop>
-
+            </BackRow>
+            <RightRow>
+            <UpdateButton onPress={()=>setDummy(1)}>
+            <MaterialCommunityIcons 
+                name="autorenew"
+                size={18}
+                color="white"
+                />
+            </UpdateButton>
+                <DeleteButton onPress={()=>borrar()}>
+                <MaterialCommunityIcons 
+                name="delete-forever"
+                size={18}
+                color="white"
+                />
+                </DeleteButton>  
+            </RightRow>
+            </ViewButton>
+            {batallas?
             <TopGrid>
             <Table>
                 <RowT>
                 <Row><TitleText>Posición</TitleText></Row>
-                <Row><TitleText>Usuario</TitleText></Row>
+                <Row><TitleText>Tu Pokemon</TitleText></Row>
                 <Row><TitleText>Atancante</TitleText></Row>
                 <Row><TitleText>Puntuación</TitleText></Row>
                 <Row><TitleText>Día</TitleText></Row>
                 </RowT>
                 <RowT>
                 <Row><UserText>1</UserText></Row>
-                <Row><UserText>crist12</UserText></Row>
-                <Row><UserText>user123</UserText></Row>
-                <Row><UserText>100</UserText></Row>
-                <Row><UserText>11-11-2020</UserText></Row>
+                <Row><UserText>{batallas[0]!=undefined?batallas[0].Mipokemon:"-"}</UserText></Row>
+                <Row><UserText>{batallas[0]!=undefined?batallas[0].Contrincante:"-"}</UserText></Row>
+                <Row><UserText>{batallas[0]!=undefined?batallas[0].Puntaje:"-"}</UserText></Row>
+                <Row><UserText>{batallas[0]!=undefined?batallas[0].Fecha:"-"}</UserText></Row>
                 </RowT>
                 <RowT>
                 <Row><UserText>2</UserText></Row>
-                <Row><UserText>crist12</UserText></Row>
-                <Row><UserText>user123</UserText></Row>
-                <Row><UserText>90</UserText></Row>
-                <Row><UserText>11-11-2020</UserText></Row>
+                <Row><UserText>{batallas[1]!=undefined?batallas[1].Mipokemon:"-"}</UserText></Row>
+                <Row><UserText>{batallas[1]!=undefined?batallas[1].Contrincante:"-"}</UserText></Row>
+                <Row><UserText>{batallas[1]!=undefined?batallas[1].Puntaje:"-"}</UserText></Row>
+                <Row><UserText>{batallas[1]!=undefined?batallas[1].Fecha:"-"}</UserText></Row>
                 </RowT>
                 <RowT>
                 <Row><UserText>3</UserText></Row>
-                <Row><UserText>crist12</UserText></Row>
-                <Row><UserText>user123</UserText></Row>
-                <Row><UserText>80</UserText></Row>
-                <Row><UserText>11-11-2020</UserText></Row>
+                <Row><UserText>{batallas[2]!=undefined?batallas[2].Mipokemon:"-"}</UserText></Row>
+                <Row><UserText>{batallas[2]!=undefined?batallas[2].Contrincante:"-"}</UserText></Row>
+                <Row><UserText>{batallas[2]!=undefined?batallas[2].Puntaje:"-"}</UserText></Row>
+                <Row><UserText>{batallas[2]!=undefined?batallas[2].Fecha:"-"}</UserText></Row>
                 </RowT>
                 <RowT>
                 <Row><UserText>4</UserText></Row>
-                <Row><UserText>crist12</UserText></Row>
-                <Row><UserText>user123</UserText></Row>
-                <Row><UserText>70</UserText></Row>
-                <Row><UserText>11-11-2020</UserText></Row>
+                <Row><UserText>{batallas[3]!=undefined?batallas[3].Mipokemon:"-"}</UserText></Row>
+                <Row><UserText>{batallas[3]!=undefined?batallas[3].Contrincante:"-"}</UserText></Row>
+                <Row><UserText>{batallas[3]!=undefined?batallas[3].Puntaje:"-"}</UserText></Row>
+                <Row><UserText>{batallas[3]!=undefined?batallas[3].Fecha:"-"}</UserText></Row>
                 </RowT>
                 <RowT>
                 <Row><UserText>5</UserText></Row>
-                <Row><UserText>crist12</UserText></Row>
-                <Row><UserText>user123</UserText></Row>
-                <Row><UserText>60</UserText></Row>
-                <Row><UserText>11-11-2020</UserText></Row>
+                <Row><UserText>{batallas[4]!=undefined?batallas[4].Mipokemon:"-"}</UserText></Row>
+                <Row><UserText>{batallas[4]!=undefined?batallas[4].Contrincante:"-"}</UserText></Row>
+                <Row><UserText>{batallas[4]!=undefined?batallas[4].Puntaje:"-"}</UserText></Row>
+                <Row><UserText>{batallas[4]!=undefined?batallas[4].Fecha:"-"}</UserText></Row>
                 </RowT>
             </Table>
             </TopGrid>
+            :<UserText>No hay batallas registradas</UserText>}
         </Container>
     )
 }

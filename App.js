@@ -34,9 +34,9 @@ export default function App(props) {
          <StatusBar
         barStyle = "dark-content" hidden={true} />
         <UsersContextProvider>
- <PokeContextProvider>
-   <AtaqueContextProvider>
-     <BatallasContextProvider>
+        <PokeContextProvider>
+        <AtaqueContextProvider>
+        <BatallasContextProvider>
         <NavigationContainer>
           <Stack.Navigator initialRouteName="PokeBatallaScreen" headerMode="none">
             <Stack.Screen name="PokeBatallaScreen" component={PokeBatallaScreen}/>
@@ -47,7 +47,7 @@ export default function App(props) {
         </NavigationContainer>
         </BatallasContextProvider>
         </AtaqueContextProvider>
-  </PokeContextProvider>
+        </PokeContextProvider>
         </UsersContextProvider>
       </View>
     );

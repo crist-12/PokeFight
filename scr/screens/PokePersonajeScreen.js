@@ -9,6 +9,7 @@ import {ProgressBarAndroid, Alert} from 'react-native'
 
 import {BatallasContext} from '../context/BatallasContext'
 
+
 const Container = styled.View`
     flex: 1;
     background: white;
@@ -229,7 +230,7 @@ let battle={
     MiPokemon: "",
     Contrincante: "",
     Observacion: "",
-    Puntaje: 0,
+    Puntaje: "",
     Fecha: ""
 }
 
@@ -247,11 +248,9 @@ let defensaIndex1 = miPokemon.defensa;
 let defensaIndex2 = pokemonContrario.defensa;
 let fecha = new Date();
 
-console.log();
-console.log(salud1);
-console.log(salud2);
 
 useEffect(()=>{
+    
     setps1(1);
     setps2(1);
 },[])
@@ -259,15 +258,16 @@ useEffect(()=>{
 
 const insertBattle = () => {
     try{
-    addNewBatalla()
-    console.log("He guardado la batalla "+battle);
-    navigation.navigate("PokeBatallaScreen")
+    addNewBatalla(battle)
+    console.log("He guardado la batalla ");
+    console.log(battle)
     }
     catch(e){
     console.log("No pude añadir la batalla")
     console.log(e);
     }
-    
+    setps1(1);
+    setps2(1)
 }
 
 /*
@@ -307,7 +307,8 @@ aux = ps1;
 setps2(aux - (damage/salud2))
 setDanio(Math.round(damage))
 
-console.log("Daño mío: "+damage);
+
+checkPS();
 }
 
 const CalcDamageOpposite=()=>{
@@ -334,46 +335,51 @@ const CalcDamageOpposite=()=>{
             attackPower = ataque2.Valor4;
             break;
     }
-    console.log(opposite)
-    console.log(attackPower);
+
     damage2 = ((((2*100/5+2)*ataqueIndex2*attackPower/defensaIndex2)/50)+2*60)/5;
-    console.log("Daño ajeno: "+damage2);
     aux = ps2;
     setps1(aux-(damage2/salud1))
     setDanio(Math.round(damage2));
+
+    if(ps1>0){
+    //    alert("Todavia tiene salud funcion enemmigo")
+    }
+
+    checkPS()
 }
 
 const toDamage=(param)=>{
     calcDamageMio(param);
-    if(ps2<=0){
-    alert("Ganaste")
-    navigation.navigate("PokeBatallaScreen")
+    if (ps1>0){
+        setTimeout(CalcDamageOpposite,1000)
     }
-    setTimeout(CalcDamageOpposite, 2000);
-    if(ps1<=0){
-    alert("Perdiste")
-    navigation.navigate("PokeBatallaScreen")
-}
 }
 
 const checkPS= ()=>{
-    console.log("Entré a checar")
-    if(ps2<=0){
+let state=false;
+console.log("ESTOY CHECANDO")
+console.log("PS1 "+ps1)
+console.log("PS2 " +ps2)
+
+    if(ps2<=0 && !state){
+
         battle.MiPokemon = miPokemon.nombre;
         battle.Contrincante = pokemonContrario.nombre;
         battle.Observacion = "GANADOR"
         battle.Puntaje = Math.round((ps1-ps2)*100);
         battle.Fecha = fecha.getDate() + "/"+ fecha.getMonth() + "/" + fecha.getFullYear();
         saveFunction("ganado")
+        state=true;
     //    navigation.navigate("PokeBatallaScreen") 
     }
-    if(ps1<=0){
+    if(ps1<=0 && !state){
         battle.MiPokemon = miPokemon.nombre;
         battle.Contrincante = pokemonContrario.nombre;
         battle.Observacion = "PERDEDOR"
         battle.Puntaje = Math.round((ps1-ps2)*100);
         battle.Fecha = fecha.getDate() + "/"+ fecha.getMonth() + "/" + fecha.getFullYear();
         saveFunction("perdido")
+        state=true;
      //   navigation.navigate("PokeBatallaScreen")
     }
 }
@@ -393,9 +399,10 @@ const saveFunction =(param) =>{
         ],
         { cancelable: true }
       );
+      
   }
 
-checkPS()
+
     return(
         <Container>
             <SuperiorRow>
@@ -436,14 +443,14 @@ checkPS()
                 </FightBox>
             </FighterRow>
             <CenterBox>
-    <FighterDiv><ViewCenter><ProgressBarAndroid styleAttr="Horizontal" color="#2196F3" indeterminate={false} progress={ps1}/><UserText>{Math.round((ps1*100)).toFixed(2)}% ps</UserText></ViewCenter>{imagen1}</FighterDiv>
+    <FighterDiv><ViewCenter><ProgressBarAndroid styleAttr="Horizontal" color="#2196F3" indeterminate={false} progress={ps1}/><UserText>{(ps1*100).toFixed(2)}% ps</UserText></ViewCenter>{imagen1}</FighterDiv>
                 <Statistics>
                     <StatsText>{poke} utilizó:</StatsText>
                     <StatsDesc>{move}</StatsDesc>
                     <StatsText></StatsText>
                     <StatsDesc>Daño: {danio}</StatsDesc>
                 </Statistics>
-                <FighterDiv><ViewCenter><ProgressBarAndroid styleAttr="Horizontal" color="#2196F3" indeterminate={false} progress={ps2}/><UserText>{Math.round((ps2*100)).toFixed(2)}% ps</UserText></ViewCenter>{imagen2}</FighterDiv>
+                <FighterDiv><ViewCenter><ProgressBarAndroid styleAttr="Horizontal" color="#2196F3" indeterminate={false} progress={ps2}/><UserText>{(ps2*100).toFixed(2)}% ps</UserText></ViewCenter>{imagen2}</FighterDiv>
                 <FighterDiv>{imagen2}</FighterDiv>
             </CenterBox>
             <DownBar>

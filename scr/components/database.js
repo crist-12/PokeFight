@@ -8,7 +8,7 @@ const getUsers = (setUserFunc) => {
   db.transaction(
     tx => {
       tx.executeSql(
-        'select * from users',
+        'select * from users order by id desc',
         [],
         (_, { rows: { _array } }) => {
           setUserFunc(_array)
@@ -57,25 +57,35 @@ const getPokemons = (setPokeFunc) => {
     db.transaction(
       tx => {
         tx.executeSql(
-          'select top 10 * from Pokemons order by Puntaje DESC',
+          'select * from Batallas order by Puntaje DESC Limit 5',
           [],
           (_, { rows: { _array } }) => {
-            setPokeFunc(_array)
-            console.log(_array)
+            setBattleFunc(_array)
           }
         ); 
       },
       (t, error) => { console.log("Error de carga de Pokemons"); console.log(error) },
-      (_t, _success) => { console.log("Pokemons cargados")}
+      (_t, _success) => { console.log("BATALLAS cargados")}
     );
   }
 
 const insertUser = (userName, successFunc) => {
   db.transaction( tx => {
-      tx.executeSql( 'insert into users (name) values (?)', [userName] );
+      tx.executeSql( 'insert into users (name) values (?)', ["Usuario"] );
     },
     (t, error) => { console.log("db error insertUser"); console.log(error);},
     (t, success) => { successFunc() }
+  )
+}
+
+
+const updateUsers = (userName, successFunc) => {
+  console.log("Estoy en database de usuarios")
+  db.transaction( tx => {
+      tx.executeSql( 'update users set name=? where id=1', [userName] );
+    },
+    (t, error) => { console.log("db error insertUser"); console.log(error);},
+    (t, success) => { successFunc(); console.log("USER ACTUALIZADO A "+userName) }
   )
 }
 
@@ -155,7 +165,7 @@ const setupPokeTableAsync = async () => {
     return new Promise((resolve, reject) => {
       db.transaction(tx => {
           tx.executeSql(
-            "CREATE TABLE if not exists Batallas (id INTEGER PRIMARY KEY NOT NULL, MiPokemon TEXT, Contrincante TEXT, Observacion TEXT, Puntaje INTEGER, Fecha TEXT)",
+            "CREATE TABLE if not exists Batallas (Mipokemon TEXT, Contrincante TEXT, Observacion TEXT, Puntaje TEXT, Fecha TEXT)",
             []
           );
         },
@@ -168,14 +178,38 @@ const setupPokeTableAsync = async () => {
     })
   }
 
-  const insertBattle = (battle, successBattleFunc) => {
-    db.transaction( tx => {
-        tx.executeSql( 'insert into Batallas (MiPokemon, Contrincante, Observacion, Puntaje, Fecha) values (?,?,?,?,?)', [battle.MiPokemon, battle.Contrincante, battle.Observacion, battle.Puntaje, battle.Fecha] );
+/*  const insertBattle = async(battle) => {    
+    db.transaction( 
+      (tx) => {
+        const consulta = "insert into Batallas (Mipokemon,Contrincante,Observacion,Puntaje,Fecha) VALUES ('1','2','3','4','5')"
+        console.log(consulta);
+        tx.executeSql(consulta);
       },
-      (t, error) => { console.log("db error insertUser"); console.log(error);},
-      (t, success) => { successBattleFunc() }
+      (t, error) => { console.log("Hubo un error al guardar en batallas"); console.log(error)},
+      (t, success) => { console.log("Estoy en el insert")       }
     )
-  }
+  } */
+
+
+  const insertBattle = (battle, successFunction) => {
+    console.log(battle);
+    console.log("Mi pokemon vale: "+battle.MiPokemon)
+    db.transaction(
+      (tx) => {
+        tx.executeSql("INSERT INTO Batallas(Mipokemon, Contrincante, Observacion, Puntaje, Fecha) VALUES (?,?,?,?,?)",
+        [battle.MiPokemon, battle.Contrincante, battle.Observacion, battle.Puntaje, battle.Fecha ]
+        );
+      },
+      (_t, error) => {
+        console.log("Error al insertar BATALLAS");
+        console.log(error);
+      },
+      (_t, _success) => {
+        successFunction()
+        console.log("se insertaron los datos correctamente los BATALAS")
+      }
+    );
+  };
 
   const insertPokemons = async (successFunc) => {
     db.transaction(
@@ -228,9 +262,9 @@ const setupPokeTableAsync = async () => {
 const setupUsersAsync = async () => {
   return new Promise((resolve, _reject) => {
     db.transaction( tx => {
-        tx.executeSql( 'insert into users (id, name) values (?,?)', [1, "john"] );
+        tx.executeSql( 'insert into users (name) values (?)', ["Usuario"] );
       },
-      (t, error) => { console.log("db error insertUser"); console.log(error); resolve() },
+      (t, error) => { console.log("Ocurrió un error al tratar de ingresar el usuario"); console.log(error); resolve() },
       (t, success) => { resolve(success)}
     )
   })
@@ -244,6 +278,32 @@ const dropPokeTable = async () => {
         (t, error) => { console.log("Error al tratar de borrar tabla de Pokemons"); console.log(error); resolve() },
         (t, success) => { 
           console.log("Borré la tabla de ataques Pokemon")
+          resolve(success)}
+      )
+    })
+  }
+
+  const dropBatallasTable = async () => {
+    return new Promise((resolve, _reject) => {
+      db.transaction( tx => {
+          tx.executeSql( 'drop table Batallas' );
+        },
+        (t, error) => { console.log("Error al tratar de borrar tabla de Batallas"); console.log(error); resolve() },
+        (t, success) => { 
+          console.log("Borré la tabla de Batallas :3")
+          resolve(success)}
+      )
+    })
+  }
+
+  const dropUsersTable = async () => {
+    return new Promise((resolve, _reject) => {
+      db.transaction( tx => {
+          tx.executeSql( 'drop table users' );
+        },
+        (t, error) => { console.log("Error al tratar de borrar tabla de usuarios"); console.log(error); resolve() },
+        (t, success) => { 
+          console.log("Borré la tabla de Usuarios :3")
           resolve(success)}
       )
     })
@@ -265,5 +325,7 @@ export const database = {
   dropAtaqueTable,
   setupBatallaTable,
   insertBattle,
-  getBatallas
+  getBatallas,
+  dropBatallasTable,
+  updateUsers
 }

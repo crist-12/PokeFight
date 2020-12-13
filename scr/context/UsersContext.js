@@ -26,12 +26,16 @@ export const UsersContextProvider = props => {
     return database.getUsers(setUsers)
   }
 
+  const modificarUsers = userName =>{
+    return database.updateUsers(userName, refreshUsers)
+  }
  
 
   // Make the context object:
   const usersContext = {
     users,
-    addNewUser
+    addNewUser,
+    modificarUsers
   };
 
 

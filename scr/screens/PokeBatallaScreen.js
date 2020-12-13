@@ -12,6 +12,7 @@ import { AtaqueContext, AtaquesContext } from '../context/AtaquesContext'
 
 import { setContrincante, setPersonaje, setImagen, setImagenContrincante, setAtaques, setAtaquesOponente } from '../../data_store'
 import { BatallasContext } from '../context/BatallasContext'
+import {UsersContext} from '../context/UsersContext'
 
 //import {PokemonsContext} from '../../context/pokemonsContext'
 //import { FadeInFromBottomAndroidSpec } from '@react-navigation/stack/lib/typescript/src/TransitionConfigs/TransitionSpecs'
@@ -295,7 +296,23 @@ const ABox = styled.View`
 const soundObject = new Audio.Sound();
 
 const PokeBatalla = ({navigation})=>{
-   
+    const usersContext = useContext(UsersContext);
+    const[usuario, setUsuario]=useState("Usuario")
+    const {users, addNewUser, modificarUsers}= usersContext;
+    let aux_user;
+
+    if(users!==undefined){
+    console.log("El usuario es "+users);
+    {users.map((user) => (
+       aux_user = user.name
+      ))}
+    //  setUsuario(aux_user)
+    }else{
+        console.log("USERS VIENE UNDEFINED")
+    }
+
+    
+
     const [id, setId]=useState(0);
     let PokeObject = {
         "nombre": "Pikachu",
@@ -313,7 +330,7 @@ const PokeBatalla = ({navigation})=>{
 
 
 
-    console.log("Mi valor predeterminado es: "+PokeObject.tipo)
+    
    // const pokemonsContext = useContext (PokemonsContext);
     // const { addNewpokemons, refreshPokemons,Pokemons} = pokemonsContext;
     const pokesContext = useContext(PokeContext);
@@ -324,9 +341,6 @@ const PokeBatalla = ({navigation})=>{
 
 
 
-    console.log("Los ataques son: ")
-    console.log(ataques);
-
     const [play, setPlay] = useState(true);
     let value = play;
     var tipo;
@@ -336,7 +350,7 @@ const PokeBatalla = ({navigation})=>{
 
 
     const mostrarPoke=(parametro)=>{
-        console.log(id);
+        
         switch(parametro){
             case 0:
                 console.log("Elegiste a Pikachu");
@@ -400,22 +414,21 @@ const PokeBatalla = ({navigation})=>{
     
 
     const playBackground= async()=>{
-       // console.log(play);
-     //   console.log("Estoy en el audio")
         try{
               await soundObject.unloadAsync()
               await soundObject.loadAsync(require('../audios/background.mp3'));
               soundObject.setIsLoopingAsync(true);
               await soundObject.replayAsync();
-             // console.log(soundObject);
         }catch(error){
             console.log("Ha ocurrido un error al tratar de cargar el archivo. "+error);
         }
     }
+useEffect(()=>{
+    playBackground();
+},[])
 
     if(value){
         playBackground();
-        
     }
 
     const Navegar=()=>{
@@ -470,7 +483,7 @@ const PokeBatalla = ({navigation})=>{
                     <Pokeball 
                     source={require('../img/pokeball.png')}
                     />
-                    <UserText>¡Bienvenido(a), Christopher!</UserText>
+                    <UserText>¡Bienvenido(a), {aux_user}!</UserText>
                 </GrayRow>
             <MiddleBox>
             <Triangle></Triangle>

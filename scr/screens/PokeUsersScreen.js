@@ -27,15 +27,15 @@ const UserText = styled.Text`
 
 const FormDiv = styled.View`
     height: 85%;
-
-    justify-content: center;
     align-items: center;
 `
 
 const RegisterDiv = styled.View`
+
     height: 70%;
     width: 60%;
     background: #C1E6F6;
+
 `
 
 const SuperiorRow = styled.View`
@@ -112,16 +112,18 @@ const PokeUsers = ({navigation})=>{
     const [ name, setName ] = useState(null);
    
     const usersContext = useContext(UsersContext);
-    const {users, addNewUser}= usersContext;
+    const {users, addNewUser, modificarUsers}= usersContext;
+
+    console.log(users.name);
 
     const insertUser = () => {
         try{
-        addNewUser(name)
-        console.log("He guardado el usuario "+name);
+        modificarUsers(name)
+        alert("Tu nombre de entrenador fue actualizado a "+name);
         setName('')
         }
         catch(e){
-            console.log(e);
+            console.log("Ocurrió un error");
         } 
     }
 

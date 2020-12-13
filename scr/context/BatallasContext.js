@@ -18,23 +18,28 @@ export const BatallasContextProvider = props => {
     refreshBatallas()
   }, [] )
 
-  const addNewBatalla = batallaData => {
-    return database.insertBattle(batallaData, refreshBatallas)
+  const addNewBatalla = (battle) => {
+    return database.insertBattle(battle, refreshBatallas)
   };
 
   const refreshBatallas = () =>  {
-    return database.getBatallas(setBatallas)
+     database.getBatallas(setBatallas)
   }
 
- 
+  const deleteBatallas = () => {
+    database.dropBatallasTable()
+  }
+
+ console.log("El valor de batallas es: ");
+ console.log(batallas);
 
   // Make the context object:
   const batallasContext = {
     batallas,
-    addNewBatalla
+    addNewBatalla,
+    deleteBatallas,
+    setBatallas
   };
-
-
 
   // pass the value in provider and return
   return <BatallasContext.Provider value={batallasContext}>{children}</BatallasContext.Provider>;

@@ -1,9 +1,13 @@
-import React from 'react'
+import React, { useEffect, useContext } from 'react'
 
 import styled from 'styled-components/native'
 import { MaterialCommunityIcons } from '@expo/vector-icons'
 import { setContrincante, setPersonaje, getContrincante, getPersonaje, getImagen, getImagenContrincante, getAtaques, getAtaquesOponentes } from '../../data_store'
 import { useState } from 'react/cjs/react.development'
+
+import {ProgressBarAndroid, Alert} from 'react-native'
+
+import {BatallasContext} from '../context/BatallasContext'
 
 const Container = styled.View`
     flex: 1;
@@ -201,7 +205,15 @@ const MoveText = styled.Text`
     text-align: center;
 `
 
+const ViewCenter = styled.View`
+    display: flex;
+    width: 80%;
+`
+
 const PokePersonaje = ({navigation})=>{
+
+    const batallasContext = useContext(BatallasContext);
+    const {batallas, addNewBatalla}= batallasContext;
 
 let miPokemon = getPersonaje();
 let pokemonContrario = getContrincante();
@@ -213,19 +225,50 @@ let ataque2 = getAtaquesOponentes()
 let damage;
 let damage2;
 
+let battle={
+    MiPokemon: "",
+    Contrincante: "",
+    Observacion: "",
+    Puntaje: 0,
+    Fecha: ""
+}
+
 const [poke, setPoke]= useState('');
 const [danio, setDanio]=useState('')
 const [move, setMove]=useState('')
-const [ps1, setps1]=useState(null);
-const [ps2, setps2]=useState(null);
+const [ps1, setps1]=useState(1);
+const [ps2, setps2]=useState(1);
 
-
+let salud1 = miPokemon.salud;
+let salud2 = pokemonContrario.salud;
 let ataqueIndex1 = miPokemon.ataque;
 let ataqueIndex2 = pokemonContrario.ataque;
 let defensaIndex1 = miPokemon.defensa;
 let defensaIndex2 = pokemonContrario.defensa;
+let fecha = new Date();
+
+console.log();
+console.log(salud1);
+console.log(salud2);
+
+useEffect(()=>{
+    setps1(1);
+    setps2(1);
+},[])
 
 
+const insertBattle = () => {
+    try{
+    addNewBatalla()
+    console.log("He guardado la batalla "+battle);
+    navigation.navigate("PokeBatallaScreen")
+    }
+    catch(e){
+    console.log("No pude añadir la batalla")
+    console.log(e);
+    }
+    
+}
 
 /*
 console.log(ataque1)
@@ -237,7 +280,7 @@ console.log(pokemonContrario);
 
 
 const calcDamageMio=(pokeAttack)=>{
-
+    let aux;
     setPoke(miPokemon.nombre);
     let attackPower;
 switch(pokeAttack){
@@ -260,6 +303,8 @@ switch(pokeAttack){
 }
 damage = ((((2*100/5+2)*ataqueIndex1*attackPower/defensaIndex1)/50)+2*60)/5;
 
+aux = ps1;
+setps2(aux - (damage/salud2))
 setDanio(Math.round(damage))
 
 console.log("Daño mío: "+damage);
@@ -267,6 +312,7 @@ console.log("Daño mío: "+damage);
 
 const CalcDamageOpposite=()=>{
     let opposite;
+    let aux;
     let attackPower;
     opposite = Math.round(Math.random() * (4 - 1) + 1);
     setPoke(pokemonContrario.nombre);
@@ -292,21 +338,64 @@ const CalcDamageOpposite=()=>{
     console.log(attackPower);
     damage2 = ((((2*100/5+2)*ataqueIndex2*attackPower/defensaIndex2)/50)+2*60)/5;
     console.log("Daño ajeno: "+damage2);
-    
+    aux = ps2;
+    setps1(aux-(damage2/salud1))
     setDanio(Math.round(damage2));
 }
 
 const toDamage=(param)=>{
     calcDamageMio(param);
-    setTimeout(CalcDamageOpposite, 3000);
+    if(ps2<=0){
+    alert("Ganaste")
+    navigation.navigate("PokeBatallaScreen")
+    }
+    setTimeout(CalcDamageOpposite, 2000);
+    if(ps1<=0){
+    alert("Perdiste")
+    navigation.navigate("PokeBatallaScreen")
+}
 }
 
+const checkPS= ()=>{
+    console.log("Entré a checar")
+    if(ps2<=0){
+        battle.MiPokemon = miPokemon.nombre;
+        battle.Contrincante = pokemonContrario.nombre;
+        battle.Observacion = "GANADOR"
+        battle.Puntaje = Math.round((ps1-ps2)*100);
+        battle.Fecha = fecha.getDate() + "/"+ fecha.getMonth() + "/" + fecha.getFullYear();
+        saveFunction("ganado")
+    //    navigation.navigate("PokeBatallaScreen") 
+    }
+    if(ps1<=0){
+        battle.MiPokemon = miPokemon.nombre;
+        battle.Contrincante = pokemonContrario.nombre;
+        battle.Observacion = "PERDEDOR"
+        battle.Puntaje = Math.round((ps1-ps2)*100);
+        battle.Fecha = fecha.getDate() + "/"+ fecha.getMonth() + "/" + fecha.getFullYear();
+        saveFunction("perdido")
+     //   navigation.navigate("PokeBatallaScreen")
+    }
+}
 
+const saveFunction =(param) =>{
+    // Works on both Android and iOS
+      Alert.alert(
+        'Fin de la batalla, has '+param,
+        '¿Quisieras guardar esta batalla?',
+        [
+          {
+            text: 'No',
+            onPress: () => console.log('Cancel Pressed'),
+            style: 'cancel'
+          },
+          { text: 'Si', onPress: () => (insertBattle())  }
+        ],
+        { cancelable: true }
+      );
+  }
 
-
-const matriz = [];
-console.log(matriz);
-
+checkPS()
     return(
         <Container>
             <SuperiorRow>
@@ -347,13 +436,14 @@ console.log(matriz);
                 </FightBox>
             </FighterRow>
             <CenterBox>
-                <FighterDiv>{imagen1}</FighterDiv>
+    <FighterDiv><ViewCenter><ProgressBarAndroid styleAttr="Horizontal" color="#2196F3" indeterminate={false} progress={ps1}/><UserText>{Math.round((ps1*100)).toFixed(2)}% ps</UserText></ViewCenter>{imagen1}</FighterDiv>
                 <Statistics>
                     <StatsText>{poke} utilizó:</StatsText>
                     <StatsDesc>{move}</StatsDesc>
                     <StatsText></StatsText>
                     <StatsDesc>Daño: {danio}</StatsDesc>
                 </Statistics>
+                <FighterDiv><ViewCenter><ProgressBarAndroid styleAttr="Horizontal" color="#2196F3" indeterminate={false} progress={ps2}/><UserText>{Math.round((ps2*100)).toFixed(2)}% ps</UserText></ViewCenter>{imagen2}</FighterDiv>
                 <FighterDiv>{imagen2}</FighterDiv>
             </CenterBox>
             <DownBar>

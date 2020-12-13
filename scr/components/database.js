@@ -53,6 +53,23 @@ const getPokemons = (setPokeFunc) => {
     );
   }
 
+  const getBatallas = (setBattleFunc) => {
+    db.transaction(
+      tx => {
+        tx.executeSql(
+          'select top 10 * from Pokemons order by Puntaje DESC',
+          [],
+          (_, { rows: { _array } }) => {
+            setPokeFunc(_array)
+            console.log(_array)
+          }
+        ); 
+      },
+      (t, error) => { console.log("Error de carga de Pokemons"); console.log(error) },
+      (_t, _success) => { console.log("Pokemons cargados")}
+    );
+  }
+
 const insertUser = (userName, successFunc) => {
   db.transaction( tx => {
       tx.executeSql( 'insert into users (name) values (?)', [userName] );
@@ -132,6 +149,32 @@ const setupPokeTableAsync = async () => {
         }
       )
     })
+  }
+
+  const setupBatallaTable = async () => {
+    return new Promise((resolve, reject) => {
+      db.transaction(tx => {
+          tx.executeSql(
+            "CREATE TABLE if not exists Batallas (id INTEGER PRIMARY KEY NOT NULL, MiPokemon TEXT, Contrincante TEXT, Observacion TEXT, Puntaje INTEGER, Fecha TEXT)",
+            []
+          );
+        },
+        (_, error) => { console.log("db error creating batallas pokemon"); console.log(error); reject(error) },
+        (_, success) => { 
+          resolve(success)
+          console.log("Tabla de batallas creada exitosamente")
+        }
+      )
+    })
+  }
+
+  const insertBattle = (battle, successBattleFunc) => {
+    db.transaction( tx => {
+        tx.executeSql( 'insert into Batallas (MiPokemon, Contrincante, Observacion, Puntaje, Fecha) values (?,?,?,?,?)', [battle.MiPokemon, battle.Contrincante, battle.Observacion, battle.Puntaje, battle.Fecha] );
+      },
+      (t, error) => { console.log("db error insertUser"); console.log(error);},
+      (t, success) => { successBattleFunc() }
+    )
   }
 
   const insertPokemons = async (successFunc) => {
@@ -219,5 +262,8 @@ export const database = {
   setupAtaqueTable,
   insertAtaques,
   getAtaques,
-  dropAtaqueTable
+  dropAtaqueTable,
+  setupBatallaTable,
+  insertBattle,
+  getBatallas
 }

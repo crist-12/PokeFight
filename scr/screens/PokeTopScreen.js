@@ -1,8 +1,9 @@
-import React from 'react'
+import React, {useContext} from 'react'
 
 import styled from 'styled-components/native'
 
 import { MaterialCommunityIcons } from '@expo/vector-icons'
+import {BatallasContext} from '../context/BatallasContext'
 
 const Container = styled.SafeAreaView`
     flex: 1;
@@ -78,6 +79,10 @@ const Row = styled.View`
 `
 
 const PokeTop = ({navigation})=>{
+
+    const batallasContext = useContext(BatallasContext);
+    const {batallas, addNewBatalla}= batallasContext;
+
     return(
         <Container>
 

@@ -119,13 +119,11 @@ const PokeUsers = ({navigation})=>{
         addNewUser(name)
         console.log("He guardado el usuario "+name);
         setName('')
-
-    }
+        }
         catch(e){
             console.log(e);
-        }
-        
-      }
+        } 
+    }
 
 
     return(

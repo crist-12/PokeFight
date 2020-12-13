@@ -12,6 +12,7 @@ import useDatabase from './scr/hooks/useDatabase'
 import {UsersContextProvider} from './scr/context/UsersContext'
 import {PokeContextProvider} from './scr/context/PokeContext'
 import {AtaqueContextProvider} from './scr/context/AtaquesContext'
+import {BatallasContextProvider} from './scr/context/BatallasContext'
 
 import PokeBatallaScreen from './scr/screens/PokeBatallaScreen'
 import PokePersonajeScreen from './scr/screens/PokePersonajeScreen'
@@ -35,6 +36,7 @@ export default function App(props) {
         <UsersContextProvider>
  <PokeContextProvider>
    <AtaqueContextProvider>
+     <BatallasContextProvider>
         <NavigationContainer>
           <Stack.Navigator initialRouteName="PokeBatallaScreen" headerMode="none">
             <Stack.Screen name="PokeBatallaScreen" component={PokeBatallaScreen}/>
@@ -43,6 +45,7 @@ export default function App(props) {
             <Stack.Screen name="PokeTopScreen" component={PokeTopScreen}/>
             </Stack.Navigator>
         </NavigationContainer>
+        </BatallasContextProvider>
         </AtaqueContextProvider>
   </PokeContextProvider>
         </UsersContextProvider>

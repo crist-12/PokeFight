@@ -11,6 +11,7 @@ import { PokeContext } from '../context/PokeContext'
 import { AtaqueContext, AtaquesContext } from '../context/AtaquesContext'
 
 import { setContrincante, setPersonaje, setImagen, setImagenContrincante, setAtaques, setAtaquesOponente } from '../../data_store'
+import { BatallasContext } from '../context/BatallasContext'
 
 //import {PokemonsContext} from '../../context/pokemonsContext'
 //import { FadeInFromBottomAndroidSpec } from '@react-navigation/stack/lib/typescript/src/TransitionConfigs/TransitionSpecs'
@@ -322,21 +323,10 @@ const PokeBatalla = ({navigation})=>{
     const {ataques} = ataquesContext;
 
 
+
     console.log("Los ataques son: ")
     console.log(ataques);
- /*   useEffect(()=>{
-        PikachuPok = pokes[0];
-        BulbasaurPok = pokes[1];
-        ButterfreePok = pokes[2];
-        EeveePok = pokes[3];
-        RioluPok = pokes[4];
-        SquirtlePok = pokes[5];
-        PokeObject = PikachuPok;
-    },[]) */
 
-   // let poke1 = pokes[0];
- //  console.log("myArray vale: "+myArray);
- //   console.log(myArray[0].nombre)
     const [play, setPlay] = useState(true);
     let value = play;
     var tipo;

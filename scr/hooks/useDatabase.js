@@ -19,7 +19,7 @@ export default function useDatabase() {
         await database.setupAtaqueTable()
         await database.insertPokemons()
         await database.insertAtaques()
-
+        await database.setupBatallaTable()
         setDBLoadingComplete(true);
       } catch (e) {
           console.log("No pude entrar :c")

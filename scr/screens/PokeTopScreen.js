@@ -193,17 +193,17 @@ const PokeTop = ({navigation})=>{
                 </RowT>
                 <RowT>
                 <Row><UserText>1</UserText></Row>
-                <Row><UserText>{batallas[0]!=undefined?batallas[0].Mipokemon:"-"}</UserText></Row>
-                <Row><UserText>{batallas[0]!=undefined?batallas[0].Contrincante:"-"}</UserText></Row>
-                <Row><UserText>{batallas[0]!=undefined?batallas[0].Puntaje:"-"}</UserText></Row>
-                <Row><UserText>{batallas[0]!=undefined?batallas[0].Fecha:"-"}</UserText></Row>
+                <Row><UserText>{batallas[4]!=undefined?batallas[4].Mipokemon:"-"}</UserText></Row>
+                <Row><UserText>{batallas[4]!=undefined?batallas[4].Contrincante:"-"}</UserText></Row>
+                <Row><UserText>{batallas[4]!=undefined?batallas[4].Puntaje:"-"}</UserText></Row>
+                <Row><UserText>{batallas[4]!=undefined?batallas[4].Fecha:"-"}</UserText></Row>
                 </RowT>
                 <RowT>
                 <Row><UserText>2</UserText></Row>
-                <Row><UserText>{batallas[1]!=undefined?batallas[1].Mipokemon:"-"}</UserText></Row>
-                <Row><UserText>{batallas[1]!=undefined?batallas[1].Contrincante:"-"}</UserText></Row>
-                <Row><UserText>{batallas[1]!=undefined?batallas[1].Puntaje:"-"}</UserText></Row>
-                <Row><UserText>{batallas[1]!=undefined?batallas[1].Fecha:"-"}</UserText></Row>
+                <Row><UserText>{batallas[3]!=undefined?batallas[3].Mipokemon:"-"}</UserText></Row>
+                <Row><UserText>{batallas[3]!=undefined?batallas[3].Contrincante:"-"}</UserText></Row>
+                <Row><UserText>{batallas[3]!=undefined?batallas[3].Puntaje:"-"}</UserText></Row>
+                <Row><UserText>{batallas[3]!=undefined?batallas[3].Fecha:"-"}</UserText></Row>
                 </RowT>
                 <RowT>
                 <Row><UserText>3</UserText></Row>
@@ -214,17 +214,17 @@ const PokeTop = ({navigation})=>{
                 </RowT>
                 <RowT>
                 <Row><UserText>4</UserText></Row>
-                <Row><UserText>{batallas[3]!=undefined?batallas[3].Mipokemon:"-"}</UserText></Row>
-                <Row><UserText>{batallas[3]!=undefined?batallas[3].Contrincante:"-"}</UserText></Row>
-                <Row><UserText>{batallas[3]!=undefined?batallas[3].Puntaje:"-"}</UserText></Row>
-                <Row><UserText>{batallas[3]!=undefined?batallas[3].Fecha:"-"}</UserText></Row>
+                <Row><UserText>{batallas[1]!=undefined?batallas[1].Mipokemon:"-"}</UserText></Row>
+                <Row><UserText>{batallas[1]!=undefined?batallas[1].Contrincante:"-"}</UserText></Row>
+                <Row><UserText>{batallas[1]!=undefined?batallas[1].Puntaje:"-"}</UserText></Row>
+                <Row><UserText>{batallas[1]!=undefined?batallas[1].Fecha:"-"}</UserText></Row>
                 </RowT>
                 <RowT>
                 <Row><UserText>5</UserText></Row>
-                <Row><UserText>{batallas[4]!=undefined?batallas[4].Mipokemon:"-"}</UserText></Row>
-                <Row><UserText>{batallas[4]!=undefined?batallas[4].Contrincante:"-"}</UserText></Row>
-                <Row><UserText>{batallas[4]!=undefined?batallas[4].Puntaje:"-"}</UserText></Row>
-                <Row><UserText>{batallas[4]!=undefined?batallas[4].Fecha:"-"}</UserText></Row>
+                <Row><UserText>{batallas[0]!=undefined?batallas[0].Mipokemon:"-"}</UserText></Row>
+                <Row><UserText>{batallas[0]!=undefined?batallas[0].Contrincante:"-"}</UserText></Row>
+                <Row><UserText>{batallas[0]!=undefined?batallas[0].Puntaje:"-"}</UserText></Row>
+                <Row><UserText>{batallas[0]!=undefined?batallas[0].Fecha:"-"}</UserText></Row>
                 </RowT>
             </Table>
             </TopGrid>

@@ -186,6 +186,14 @@ const ButtonMov = styled.TouchableOpacity`
     justify-content: center;
     align-items: center;
 `
+const ButtonMov2 = styled.View`
+    background: #c4c4c4;
+    width: 40%;
+    height: 80%;
+    margin: 0 14px;
+    justify-content: center;
+    align-items: center;
+`
 
 const StatsText = styled.Text`
     margin-top: 10px;
@@ -239,6 +247,7 @@ const [danio, setDanio]=useState('')
 const [move, setMove]=useState('')
 const [ps1, setps1]=useState(1);
 const [ps2, setps2]=useState(1);
+const [status, setStatus]=useState(true);
 
 let salud1 = miPokemon.salud;
 let salud2 = pokemonContrario.salud;
@@ -266,18 +275,25 @@ const insertBattle = () => {
     console.log("No pude añadir la batalla")
     console.log(e);
     }
+    setStatus(false);
     setps1(1);
     setps2(1)
 }
 
-/*
-console.log(ataque1)
-console.log(ataque2)
-
-console.log(miPokemon);
-console.log(pokemonContrario);
-*/
-
+const showHelp=()=>{
+    Alert.alert(
+        'Ayuda',
+        'Debes atacar por turnos, escoge qué ataque quieres y espera dos segundos a que tu oponente ataque, gana quien demuestre la valía de ser el mejor entrenador. ¡A luchar!',
+        [
+          {
+            text: 'Sí',
+            onPress: () => console.log('Cancel Pressed'),
+            style: 'cancel'
+          },
+        ],
+        { cancelable: true }
+      );
+}
 
 const calcDamageMio=(pokeAttack)=>{
     let aux;
@@ -361,6 +377,7 @@ console.log("ESTOY CHECANDO")
 console.log("PS1 "+ps1)
 console.log("PS2 " +ps2)
 
+if(status){
     if(ps2<=0 && !state){
 
         battle.MiPokemon = miPokemon.nombre;
@@ -382,6 +399,7 @@ console.log("PS2 " +ps2)
         state=true;
      //   navigation.navigate("PokeBatallaScreen")
     }
+}
 }
 
 const saveFunction =(param) =>{
@@ -415,6 +433,13 @@ const saveFunction =(param) =>{
                 <Triangle/>
                 <RedRow>
                     <ButtonGroup>
+                    <ButtonTop onPress={()=>showHelp()}>
+                        <MaterialCommunityIcons
+                            name="help"
+                            size={18}
+                            color="black"
+                            />
+                        </ButtonTop>
                         <ButtonTop onPress={()=>navigation.navigate("PokeBatallaScreen")}>
                         <MaterialCommunityIcons
                             name="arrow-left-bold"
@@ -466,12 +491,12 @@ const saveFunction =(param) =>{
                 </FighterDiv>
                 <FighterDiv>
                 <ButtonRow>
-                        <ButtonMov><MoveText>{ataque2.Ataque1}</MoveText></ButtonMov>
-                        <ButtonMov><MoveText>{ataque2.Ataque2}</MoveText></ButtonMov>
+                        <ButtonMov2><MoveText>{ataque2.Ataque1}</MoveText></ButtonMov2>
+                        <ButtonMov2><MoveText>{ataque2.Ataque2}</MoveText></ButtonMov2>
                    </ButtonRow>
                    <ButtonRow>
-                        <ButtonMov><MoveText>{ataque2.Ataque3}</MoveText></ButtonMov>
-                        <ButtonMov><MoveText>{ataque2.Ataque4}</MoveText></ButtonMov>
+                        <ButtonMov2><MoveText>{ataque2.Ataque3}</MoveText></ButtonMov2>
+                        <ButtonMov2><MoveText>{ataque2.Ataque4}</MoveText></ButtonMov2>
                    </ButtonRow>
                 </FighterDiv>
             </DownBar>

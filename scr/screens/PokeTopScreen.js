@@ -43,6 +43,14 @@ const TopGrid = styled.View`
     height: 90%;
     justify-content: center;
     align-items: center;
+
+    flex-direction: row;
+`
+
+const ViewAux = styled.View`
+    background: yellow;
+    height: 100%;
+    width: 15%;
 `
 const ButtonGroup = styled.View`
     display: flex;
@@ -69,7 +77,7 @@ const UpdateButton = styled.TouchableOpacity`
     height: 30px;
     width: 30px;
     border-radius: 15px;
-    background: green;
+
     margin-top: 5px;
     margin-left: 10px;
     align-items: center;
@@ -88,11 +96,30 @@ const DeleteButton = styled.TouchableOpacity`
     justify-content: center;
 `
 const Table = styled.View`
-    width: 60%;
+    width: 100%;
     height: 70%;
     border: solid;
     border-width: 3px;
 `
+
+const SideView = styled.View`
+    width: 15%;
+    height: 100%;
+    align-items: center;
+    justify-content: center;
+`
+
+const CenterView = styled.View`
+    align-items: center;
+    justify-content: center;
+    width: 70%;
+    height: 100%;
+`
+
+const Spider = styled.Image`
+    height: 80px;
+`
+
 
 const RowT = styled.View`
     flex-direction: row;
@@ -186,6 +213,8 @@ const PokeTop = ({navigation})=>{
             </ViewButton>
             {batallas?
             <TopGrid>
+        <SideView><Spider source={require('../img/spiderman.png')}/></SideView>
+            <CenterView>
             <Table>
                 <RowT>
                 <Row><TitleText>Posición</TitleText></Row>
@@ -230,6 +259,8 @@ const PokeTop = ({navigation})=>{
                 <Row><UserText>{batallas[0]!=undefined?batallas[0].Fecha:"-"}</UserText></Row>
                 </RowT>
             </Table>
+            </CenterView>
+            <SideView><Spider source={require('../img/spiderman.png')}/></SideView>
             </TopGrid>
             :<UserText>No hay batallas registradas</UserText>}
         </Container>

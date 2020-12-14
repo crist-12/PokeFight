@@ -9,25 +9,22 @@ export default function useDatabase() {
   useEffect(() => {
     async function loadDataAsync() {
       try {
-       // await database.dropDatabaseTablesAsync()
-        //await database.setupDatabaseAsync()
-        
-       // await database.dropBatallasTable()
+      //  await database.dropAtaqueTable()
         await database.dropPokeTable()
-        await database.dropAtaqueTable()
+        await database.setupDatabaseAsync()
         await database.setupUsersAsync()
+      //  await database.insertUser()
         await database.setupPokeTableAsync()
         await database.setupBatallaTable()
         await database.setupAtaqueTable()
-        //await database.insertUser()
         await database.insertPokemons()
         await database.insertAtaques()
-
-        //await database.insertBattle()
+        console.log("TODAS LAS TABLAS CREADAS EXITOSAMENTE")
         setDBLoadingComplete(true);
+
       } catch (e) {
           console.log("No pude entrar :c")
-          setDBLoadingComplete(true);
+          
         console.warn(e);
       }
     }

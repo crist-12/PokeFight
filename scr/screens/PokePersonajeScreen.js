@@ -1,10 +1,8 @@
-import React, { useEffect, useContext } from 'react'
+import React, { useEffect, useContext, useState } from 'react'
 
 import styled from 'styled-components/native'
 import { MaterialCommunityIcons } from '@expo/vector-icons'
 import { setContrincante, setPersonaje, getContrincante, getPersonaje, getImagen, getImagenContrincante, getAtaques, getAtaquesOponentes } from '../../data_store'
-import { useState } from 'react/cjs/react.development'
-
 import {ProgressBarAndroid, Alert} from 'react-native'
 
 import {BatallasContext} from '../context/BatallasContext'
@@ -259,7 +257,6 @@ let fecha = new Date();
 
 
 useEffect(()=>{
-    
     setps1(1);
     setps2(1);
 },[])
@@ -320,11 +317,11 @@ switch(pokeAttack){
 damage = ((((2*100/5+2)*ataqueIndex1*attackPower/defensaIndex1)/50)+2*60)/5;
 
 aux = ps1;
+
 setps2(aux - (damage/salud2))
 setDanio(Math.round(damage))
 
-
-checkPS();
+checkPS(); 
 }
 
 const CalcDamageOpposite=()=>{
@@ -354,10 +351,11 @@ const CalcDamageOpposite=()=>{
 
     damage2 = ((((2*100/5+2)*ataqueIndex2*attackPower/defensaIndex2)/50)+2*60)/5;
     aux = ps2;
+
     setps1(aux-(damage2/salud1))
     setDanio(Math.round(damage2));
 
-    checkPS()
+    checkPS() 
 }
 
 const toDamage=(param)=>{

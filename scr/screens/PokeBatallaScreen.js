@@ -350,32 +350,26 @@ const PokeBatalla = ({navigation})=>{
         
         switch(parametro){
             case 0:
-                console.log("Elegiste a Pikachu");
                 tipo = <Type0><Info>Eléctrico</Info></Type0>
                 imagen = <ImageCard source={require('../img/Pikachu.png')}/>
                 break;
             case 1:
-                console.log("Elegiste a Bulbasaur");
                 tipo = <Type1><Info>Planta</Info></Type1>
                 imagen = <ImageCard source={require('../img/Bulbasaur.png')}/>
                 break;
             case 2:
-                console.log("Elegiste a Butterfree");
                 tipo = <Type2><Info>Volador</Info></Type2>
                 imagen = <ImageCard source={require('../img/Butterfree.png')}/>
                 break;
             case 3:
-                console.log("Elegiste a Squirtle");
                 tipo = <Type3><Info>Agua</Info></Type3>
                 imagen = <ImageCard source={require('../img/Squirtle.png')}/>
                 break;
             case 4:
-                    console.log("Elegiste a Riolu");
                     tipo = <Type4><Info>Lucha</Info></Type4>
                     imagen = <ImageCard source={require('../img/Riolu.png')}/>
                     break;  
             case 5:
-                    console.log("Elegiste a Eevee");
                     tipo = <Type5><Info>Normal</Info></Type5>
                     imagen = <ImageCard source={require('../img/Eevee.png')}/>
                     break;  
@@ -460,7 +454,6 @@ useEffect(()=>{
         await soundObject.unloadAsync();
         await soundObject.pauseAsync();
        }
-       console.log("Mi valor después es "+value)     
     } 
 
     return(

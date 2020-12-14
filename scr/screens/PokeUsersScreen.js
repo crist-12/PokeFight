@@ -103,7 +103,7 @@ const PokeUsers = ({navigation})=>{
     const usersContext = useContext(UsersContext);
     const {users, addNewUser, modificarUsers}= usersContext;
 
-    console.log(users.name);
+
 
     const insertUser = () => {
         try{
@@ -115,8 +115,6 @@ const PokeUsers = ({navigation})=>{
             console.log("Ocurrió un error");
         } 
     }
-
-
     return(
         <Container>
             <GrayRow>

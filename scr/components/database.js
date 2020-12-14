@@ -2,7 +2,7 @@ import React from 'react'
 
 import * as SQLite from "expo-sqlite"
 
-const db = SQLite.openDatabase('db.db')
+const db = SQLite.openDatabase('db7.db')
 
 const getUsers = (setUserFunc) => {
   db.transaction(
@@ -74,7 +74,7 @@ const insertUser = (userName, successFunc) => {
       tx.executeSql( 'insert into users (name) values (?)', ["Usuario"] );
     },
     (t, error) => { console.log("db error insertUser"); console.log(error);},
-    (t, success) => { successFunc() }
+    (t, success) => { console.log("TABLA 3 USUARIO INSERTADO ÉXITO"); successFunc() }
   )
 }
 
@@ -84,7 +84,7 @@ const updateUsers = (userName, successFunc) => {
   db.transaction( tx => {
       tx.executeSql( 'update users set name=? where id=1', [userName] );
     },
-    (t, error) => { console.log("db error insertUser"); console.log(error);},
+    (t, error) => { console.log("db error updateUser"); console.log(error);},
     (t, success) => { successFunc(); console.log("USER ACTUALIZADO A "+userName) }
   )
 }
@@ -125,7 +125,7 @@ const setupDatabaseAsync = async () => {
         );
       },
       (_, error) => { console.log("db error creating tables"); console.log(error); reject(error) },
-      (_, success) => { resolve(success)}
+      (_, success) => { console.log("TABLA 2 USUARIOS ÉXITO"); resolve(success)}
     )
   })
 }
@@ -139,7 +139,7 @@ const setupPokeTableAsync = async () => {
           );
         },
         (_, error) => { console.log("db error creating tables pokemon"); console.log(error); reject(error) },
-        (_, success) => { resolve(success)}
+        (_, success) => { console.log("TABLA 4 POKEMON ÉXITO"); resolve(success)}
       )
     })
   }
@@ -155,7 +155,7 @@ const setupPokeTableAsync = async () => {
         (_, error) => { console.log("db error creating ataques pokemon"); console.log(error); reject(error) },
         (_, success) => { 
           resolve(success)
-          console.log("Tabla de ataques creada exitosamente")
+          console.log("TABLA 6 ATAQUES ÉXITO")
         }
       )
     })
@@ -172,7 +172,7 @@ const setupPokeTableAsync = async () => {
         (_, error) => { console.log("db error creating batallas pokemon"); console.log(error); reject(error) },
         (_, success) => { 
           resolve(success)
-          console.log("Tabla de batallas creada exitosamente")
+          console.log("Tabla 5 BATALLAS ÉXITO")
         }
       )
     })
@@ -230,7 +230,7 @@ const setupPokeTableAsync = async () => {
       (_t, _success) => {
         successFunc;
         console.log(successFunc)
-        console.log("se insertaron los datos correctamente los pokemones")
+        console.log("TABLA 7 INSERCCION POKEMONS ÉXITO")
       }
     );
   };
@@ -254,7 +254,7 @@ const setupPokeTableAsync = async () => {
       (_t, _success) => {
         successFunc;
         console.log(successFunc)
-        console.log("se insertaron los datos correctamente los ataques")
+        console.log("TABLA 8 ATAQUES ÉXITO")
       }
     );
   };
@@ -265,7 +265,9 @@ const setupUsersAsync = async () => {
         tx.executeSql( 'insert into users (name) values (?)', ["Usuario"] );
       },
       (t, error) => { console.log("Ocurrió un error al tratar de ingresar el usuario"); console.log(error); resolve() },
-      (t, success) => { resolve(success)}
+      (t, success) => { 
+        console.log("S")
+        resolve(success)}
     )
   })
 }
@@ -277,7 +279,7 @@ const dropPokeTable = async () => {
         },
         (t, error) => { console.log("Error al tratar de borrar tabla de Pokemons"); console.log(error); resolve() },
         (t, success) => { 
-          console.log("Borré la tabla de ataques Pokemon")
+          console.log("TABLA 1 ÉXITO")
           resolve(success)}
       )
     })

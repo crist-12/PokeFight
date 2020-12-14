@@ -357,10 +357,6 @@ const CalcDamageOpposite=()=>{
     setps1(aux-(damage2/salud1))
     setDanio(Math.round(damage2));
 
-    if(ps1>0){
-    //    alert("Todavia tiene salud funcion enemmigo")
-    }
-
     checkPS()
 }
 
@@ -379,7 +375,6 @@ console.log("PS2 " +ps2)
 
 if(status){
     if(ps2<=0 && !state){
-
         battle.MiPokemon = miPokemon.nombre;
         battle.Contrincante = pokemonContrario.nombre;
         battle.Observacion = "GANADOR"
@@ -387,7 +382,6 @@ if(status){
         battle.Fecha = fecha.getDate() + "/"+ fecha.getMonth() + "/" + fecha.getFullYear();
         saveFunction("ganado")
         state=true;
-    //    navigation.navigate("PokeBatallaScreen") 
     }
     if(ps1<=0 && !state){
         battle.MiPokemon = miPokemon.nombre;
@@ -397,7 +391,6 @@ if(status){
         battle.Fecha = fecha.getDate() + "/"+ fecha.getMonth() + "/" + fecha.getFullYear();
         saveFunction("perdido")
         state=true;
-     //   navigation.navigate("PokeBatallaScreen")
     }
 }
 }

@@ -8,6 +8,8 @@ import { MaterialCommunityIcons } from '@expo/vector-icons'
 import {BatallasContext} from '../context/BatallasContext'
 import {UsersContext} from '../context/UsersContext'
 
+
+// ----- STYLED SECTION -----
 const Container = styled.SafeAreaView`
     flex: 1;
     background: white;
@@ -125,12 +127,14 @@ const RightRow = styled.View`
 const PokeTop = ({navigation})=>{
 
 
+    //Traer información del contexto
     let batallasContext = useContext(BatallasContext);
     let {batallas, deleteBatallas, setBatallas}= batallasContext;
-    console.log(batallas);
-    console.log("Me rendericé");
+
+    //Hook para refrescar página
     const[dummy, setDummy]=useState(0);
 
+    //Función para borrar todos los datos de la tabla
     const borrar=()=>{
         Alert.alert(
             'Eliminar datos de batalla',
@@ -150,7 +154,6 @@ const PokeTop = ({navigation})=>{
 
     return(
         <Container>
-
             <GrayRow>
                 <TitleText>Top Mejores Batallas</TitleText>
             </GrayRow>

@@ -2,14 +2,12 @@ import React, {useState,useContext} from 'react'
 
 import styled from 'styled-components/native'
 
-import { TextInput, Text, ScrollView, Button } from 'react-native'
-
 import { MaterialCommunityIcons } from '@expo/vector-icons'
-//import {PokemonsContext} from '../../context/pokemonsContext'
+
 
 import {UsersContext} from '../context/UsersContext'
 
-
+// ----- STYLED SECTION -----
 const Container = styled.SafeAreaView`
     flex: 1;
     background: white;
@@ -99,15 +97,6 @@ const ButtonTop = styled.TouchableOpacity`
 `
 
 const PokeUsers = ({navigation})=>{
-   /*const [users,setusers] = useState ("")
-
-    const pokemonsContext = useContext (PokemonsContext);
-    const {addNewUsers} =pokemonsContext
-
-    const handlerNewUsers = async(users) =>{
-       await addNewUsers (users);  
-
-    }*/
    
     const [ name, setName ] = useState(null);
    

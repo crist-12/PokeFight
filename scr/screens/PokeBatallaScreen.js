@@ -4,8 +4,7 @@ import styled from 'styled-components/native'
 
 import { Audio } from 'expo-av'
 import { FontAwesome } from '@expo/vector-icons'
-import { Alert } from 'react-native'
-import { NavigationContainer } from '@react-navigation/native'
+
 
 import { PokeContext } from '../context/PokeContext'
 import { AtaqueContext, AtaquesContext } from '../context/AtaquesContext'
@@ -14,10 +13,8 @@ import { setContrincante, setPersonaje, setImagen, setImagenContrincante, setAta
 import { BatallasContext } from '../context/BatallasContext'
 import {UsersContext} from '../context/UsersContext'
 
-//import {PokemonsContext} from '../../context/pokemonsContext'
-//import { FadeInFromBottomAndroidSpec } from '@react-navigation/stack/lib/typescript/src/TransitionConfigs/TransitionSpecs'
 
-
+// ----- STYLED SECTION ----
 const Icon = styled.Image`
     width: 25px;
     height: 25px;
@@ -358,61 +355,50 @@ const PokeBatalla = ({navigation})=>{
                 imagen = <ImageCard source={require('../img/Pikachu.png')}/>
                 break;
             case 1:
-             //   PokeObject = BulbasaurPok;
                 console.log("Elegiste a Bulbasaur");
                 tipo = <Type1><Info>Planta</Info></Type1>
                 imagen = <ImageCard source={require('../img/Bulbasaur.png')}/>
                 break;
             case 2:
-             //   PokeObject = ButterfreePok;
-
                 console.log("Elegiste a Butterfree");
                 tipo = <Type2><Info>Volador</Info></Type2>
                 imagen = <ImageCard source={require('../img/Butterfree.png')}/>
                 break;
             case 3:
-            //    PokeObject = SquirtlePok;
-
                 console.log("Elegiste a Squirtle");
                 tipo = <Type3><Info>Agua</Info></Type3>
                 imagen = <ImageCard source={require('../img/Squirtle.png')}/>
                 break;
             case 4:
-             //       PokeObject = RioluPok;
-
                     console.log("Elegiste a Riolu");
                     tipo = <Type4><Info>Lucha</Info></Type4>
                     imagen = <ImageCard source={require('../img/Riolu.png')}/>
                     break;  
             case 5:
-             //       PokeObject = EeveePok;
-
                     console.log("Elegiste a Eevee");
                     tipo = <Type5><Info>Normal</Info></Type5>
                     imagen = <ImageCard source={require('../img/Eevee.png')}/>
                     break;  
         }
+
         try{
-  //  PokeObject = null;
-    PokeObject = pokes[parametro];
-    console.log(PokeObject);
-    
-}catch(e){
-    console.log("No pude :C")
-}
+            PokeObject = pokes[parametro];
+            console.log(PokeObject);
+        }catch(e){
+            console.log("Ocurrió un error de asignación de objeto.")
+        }
         
     }
 
-    mostrarPoke(parametro);
+    mostrarPoke(parametro); //Cambia de Pokemon cada vez que selecciono uno diferente
     
 
+    //Función random que obtiene el pokemon para pelear
     const obtenerContrincante=()=>{
         return Math.round(Math.random()*(5));
     }
 
-   
-    
-
+   // Función para reproducir música.
     const playBackground= async()=>{
         try{
               await soundObject.unloadAsync()
@@ -423,6 +409,7 @@ const PokeBatalla = ({navigation})=>{
             console.log("Ha ocurrido un error al tratar de cargar el archivo. "+error);
         }
     }
+    
 useEffect(()=>{
     playBackground();
 },[])

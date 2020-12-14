@@ -6,7 +6,7 @@
     "orientation": "landscape",
     "icon": "./assets/icon.png",
     "splash": {
-      "image": "./assets/splash.png",
+      "image": "./assets/Pokefight1.jpg",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },

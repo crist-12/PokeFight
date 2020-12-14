@@ -13,3 +13,9 @@ PokeFight lleva la aventura de probar tu valentía como entrenador Pokémon a un
 
 **Muestra a tus amigos tu capacidad con esta tabla de posiciones**
 ![Tabla de posiciones](https://github.com/crist-12/PokeFight/blob/main/docs/tabla_posiciones.png)
+
+
+**Requerimientos Técnicos**
+* Realizado en Expo
+* Conexión a internet NO requerida.
+* Base de datos SQLite.
